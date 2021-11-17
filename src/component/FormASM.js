@@ -61,7 +61,7 @@ export default class FormASM extends Component {
       .post("http://localhost:5000/asm/", asm)
       .then((res) => {
         console.log(res.data);
-        if (res.data.status == 400) {
+        if (res.data.status === 400) {
           console.log("error 400");
         }
         //history.push("/");

@@ -8,24 +8,24 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menuActive: 0,
+      menuActive: 1,
     };
   }
   handleChange = (e) => {
     this.setState({ menuActive: e });
   };
   componentDidUpdate() {
-    console.log(this.state.menuActive);
+    
   }
   render() {
     return (
-      <div class="wrapper">
+      <div className="wrapper">
         <Header />
         <Menu
           menuActive={this.state.menuActive}
           onChangeMenu={this.handleChange}
         />
-        <Main />
+        <Main menuActive={this.state.menuActive} />
         <Footer />
       </div>
     );

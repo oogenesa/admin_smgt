@@ -118,3 +118,18 @@ module.exports.asm_post = async (req, res) => {
     res.status(400).json({ errors });
   }
 };
+
+module.exports.asm_get = async (req, res) => {
+  try {
+    let asm = {};
+    const asm_all = await ASM.find({}).exec(function (err, result) {
+      if (err) throw err;
+
+      res.status(201).json(result);
+    });
+    console.log(asm);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ err });
+  }
+};
