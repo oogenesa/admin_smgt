@@ -17,6 +17,7 @@ export default class Main extends Component {
     }
   }
   handleChangeASM =(e)=>{
+    console.log(e);
     
     this.setState({asmMenu : e})
   }

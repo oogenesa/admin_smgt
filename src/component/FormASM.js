@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import FileBase64 from "react-file-base64";
 import axios from "axios";
 import { DatePicker } from "react-rainbow-components";
+import Compressor from "compressorjs";
 
 export default class FormASM extends Component {
   constructor(props) {
@@ -37,6 +38,21 @@ export default class FormASM extends Component {
     console.log(err + "400");
     this.setState({ error: 400 });
   };
+
+  // handleCompressedUpload = (e) => {
+  //   const image = e;
+  //   new Compressor(image, {
+  //     quality: 0.8, // 0.6 can also be used, but its not recommended to go below.
+  //     success: (res) => {
+  //       // compressedResult has the compressed file.
+  //       // Use the compressed file to upload the images to your server.
+  //       //setCompressedFile(res)
+  //       console.log(res);
+
+  //     },
+  //   });
+  //   console.log(this.state.image);
+  // };
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -324,6 +340,12 @@ export default class FormASM extends Component {
                           this.setState({ image: base64 })
                         }
                       />
+                      {/* <input
+                        accept="image/*,capture=camera"
+                        capture="”camera"
+                        type="file"
+                        onChange={(event) => this.handleCompressedUpload(event)}
+                      /> */}
                     </div>
                   </div>
                 </div>

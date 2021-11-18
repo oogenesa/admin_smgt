@@ -30,18 +30,17 @@ export default class MenuASM extends Component {
     var temp = this.state.asm
     var asm_classes = []
     this.setState({class_sm: e})
-    //console.log(this.state.asm)
-    if(e==="all"){
-      this.setState({asm_class : temp})
-    }else{
-      this.state.asm.reduce((filterd, option) =>{
-        if(option.class_sm===e){
-          //console.log(option)
-          asm_classes.push(option)
-        }
-      })
-      this.setState({asm_class: asm_classes})
 
+   
+    if (e === "all") {
+      this.setState({ asm_class: temp });
+    } else {
+      this.state.asm.filter((option) => {
+        if (option.class_sm == e) {
+          asm_classes.push(option);
+        }
+      });
+      this.setState({ asm_class: asm_classes });
     }
     
   }
