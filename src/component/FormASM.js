@@ -26,6 +26,9 @@ export default class FormASM extends Component {
       data: "",
     };
   }
+  handleBack = () => {
+    this.props.onChangeASM(1);
+  };
   componentDidMount() {}
   componentDidUpdate() {
     // console.log(this.state.birth_date);
@@ -76,7 +79,6 @@ export default class FormASM extends Component {
           self.setState({ data: error.response.data.errors.email });
           //self.handleError(data);
           console.log(error.response.status);
-          
         } else if (error.request) {
           // The request was made but no response was received
           console.log(error.request);
@@ -87,16 +89,20 @@ export default class FormASM extends Component {
       });
   };
   render() {
-    console.log("err" + this.state.data);
     var loops = [];
     for (var i = 0; i <= 9; i++) {
-      loops.push(<option value={i}> {i} </option>);
+      loops.push(
+        <option key={i} value={i}>
+          {" "}
+          {i}{" "}
+        </option>
+      );
     }
     return (
       <div>
         <div className="container-fluid">
-          <div class="card-header">
-            <h3 class="card-title">Form Tambah Data Anak Sekolah Minggu</h3>
+          <div className="card-header">
+            <h3 className="card-title">Form Tambah Data Anak Sekolah Minggu</h3>
           </div>
           <form onSubmit={this.handleSubmit}>
             <div className="card-body">
@@ -147,7 +153,7 @@ export default class FormASM extends Component {
                   </div>
                 </div>
                 <div className="col-md-6">
-                  <div class="form-group">
+                  <div className="form-group">
                     <div>
                       <div className="rainbow-align-content_center rainbow-m-vertical_large rainbow-p-horizontal_small rainbow-m_auto">
                         <DatePicker
@@ -355,6 +361,9 @@ export default class FormASM extends Component {
             </div>
           </form>
           {/* <div>{this.state.image}</div> */}
+          <div className="btn btn-info">
+            <a onClick={this.handleBack}>Back</a>
+          </div>
         </div>
       </div>
     );

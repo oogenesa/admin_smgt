@@ -120,14 +120,19 @@ module.exports.asm_post = async (req, res) => {
 };
 
 module.exports.asm_get = async (req, res) => {
+  const field = {
+    _id: 1,
+    full_name: 1,
+    nick_name: 1,
+    birth_date: 1,
+    class_sm: 1,
+    image: 1,
+  };
   try {
-    let asm = {};
-    const asm_all = await ASM.find({}).exec(function (err, result) {
+    await ASM.find({}, field).exec(function (err, result) {
       if (err) throw err;
-
       res.status(201).json(result);
     });
-    console.log(asm);
   } catch (err) {
     console.log(err);
     res.status(400).json({ err });

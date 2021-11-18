@@ -5,7 +5,8 @@ import MenuASM from "../component/MenuASM";
 export default class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = { menuActive: this.props.menuActive };
+    this.state = { menuActive: this.props.menuActive ,
+    asmMenu : 1};
   }
   componentDidUpdate(prevProps) {
     {
@@ -15,17 +16,42 @@ export default class Main extends Component {
       }
     }
   }
+  handleChangeASM =(e)=>{
+    
+    this.setState({asmMenu : e})
+  }
   render() {
-    function page(menuActive) {
+    var change = (e)=>{ this.handleChangeASM(e)}
+    
+    function page(menuActive, asmMenu) {
+      
       switch (menuActive) {
         case 1:
-          return (
+          switch(asmMenu){
+            case 1:
+              return(
+                <div>
+                  <MenuASM asmMenu={asmMenu} onChangeASM={(e)=>change(e)}/>
+                </div>
+              )
+            break;
+            case 2 :
+              return(
+              <div>
+                <FormASM onChangeASM={(e)=>change(e)}/>
+              </div>
+              )
+              break;
+            default :
+            return(
             <div>
-              {/* <FormASM /> */}
-              <MenuASM />
-            </div>
-          );
-          break;
+
+<MenuASM asmMenu={asmMenu} onChangeASM={(e)=>change(e)}/>
+                </div>
+            )
+            break;
+          }
+         
         case 2:
           return (
             <div>
@@ -40,7 +66,7 @@ export default class Main extends Component {
     }
     return (
       <div>
-        <div className="content-wrapper">{page(this.state.menuActive)}</div>
+        <div className="content-wrapper">{page(this.state.menuActive, this.state.asmMenu)}</div>
       </div>
     );
   }
