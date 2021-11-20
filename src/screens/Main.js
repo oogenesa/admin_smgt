@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import FormGSM from "../component/FormGSM";
 import FormASM from "../component/FormASM";
 import MenuASM from "../component/MenuASM";
+import DetailASM from "../component/DetailASM";
 export default class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = { menuActive: this.props.menuActive ,
-    asmMenu : 1};
+    this.state = { menuActive: this.props.menuActive, asmMenu: 1, asmID: "" };
   }
   componentDidUpdate(prevProps) {
     {
@@ -16,43 +16,52 @@ export default class Main extends Component {
       }
     }
   }
-  handleChangeASM =(e)=>{
+  handleChangeASM = (e) => {
     console.log(e);
-    
-    this.setState({asmMenu : e})
-  }
+
+    this.setState({ asmMenu: e.idmenuasm, asmID: e.idasm });
+  };
+
   render() {
-    var change = (e)=>{ this.handleChangeASM(e)}
-    
+    var change = (e) => {
+      this.handleChangeASM(e);
+    };
+    var idasm = this.state.asmID;
+
     function page(menuActive, asmMenu) {
-      
+      console.log(asmMenu);
       switch (menuActive) {
         case 1:
-          switch(asmMenu){
+          switch (asmMenu) {
             case 1:
-              return(
+              return (
                 <div>
-                  <MenuASM asmMenu={asmMenu} onChangeASM={(e)=>change(e)}/>
+                  <MenuASM asmMenu={asmMenu} onChangeASM={(e) => change(e)} />
                 </div>
-              )
-            break;
-            case 2 :
-              return(
-              <div>
-                <FormASM onChangeASM={(e)=>change(e)}/>
-              </div>
-              )
+              );
               break;
-            default :
-            return(
-            <div>
-
-<MenuASM asmMenu={asmMenu} onChangeASM={(e)=>change(e)}/>
+            case 2:
+              return (
+                <div>
+                  <FormASM onChangeASM={(e) => change(e)} />
                 </div>
-            )
-            break;
+              );
+              break;
+            case 3:
+              return (
+                <div>
+                  <DetailASM idasm={idasm} onChangeASM={(e) => change(e)} />
+                </div>
+              );
+            default:
+              return (
+                <div>
+                  <MenuASM asmMenu={asmMenu} onChangeASM={(e) => change(e)} />
+                </div>
+              );
+              break;
           }
-         
+
         case 2:
           return (
             <div>
@@ -67,7 +76,9 @@ export default class Main extends Component {
     }
     return (
       <div>
-        <div className="content-wrapper">{page(this.state.menuActive, this.state.asmMenu)}</div>
+        <div className="content-wrapper">
+          {page(this.state.menuActive, this.state.asmMenu)}
+        </div>
       </div>
     );
   }

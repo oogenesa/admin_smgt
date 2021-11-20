@@ -23,9 +23,22 @@ export default class MenuASM extends Component {
     });
   }
   handleClickAdd = () => {
-    const id = 2;
-    this.props.onChangeASM(id);
+    const send = {
+      idmenuasm : 2,
+      idasm : "id"
+    }
+    console.log('add')
+    this.props.onChangeASM(send)
   };
+  handleClickDetail =(id)=>{
+    const send = {
+      idmenuasm : 3,
+      idasm : id
+    }
+    console.log('detail')
+    this.props.onChangeASM(send)
+  }
+
   handleChangeClass = (e)=>{
     var temp = this.state.asm
     var asm_classes = []
@@ -103,13 +116,13 @@ export default class MenuASM extends Component {
                       className="btn-group btn-group-sm"
                     >
                       <div>
-                        <a href="#" className="btn btn-info">
+                        <a  className="btn btn-info" onClick={()=>this.handleClickDetail(anak._id)}>
                           <i className="fas fa-eye"></i>
                           Detail
                         </a>
                       </div>
                       <div>
-                        <a href="#" className="btn btn-danger">
+                        <a className="btn btn-danger">
                           <i className="fas fa-pen"></i>
                           Edit
                         </a>

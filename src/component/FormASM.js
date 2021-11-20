@@ -28,7 +28,11 @@ export default class FormASM extends Component {
     };
   }
   handleBack = () => {
-    this.props.onChangeASM(1);
+    const send = {
+      idmenuasm: 1,
+      idasm: "",
+    };
+    this.props.onChangeASM(send);
   };
   componentDidMount() {}
   componentDidUpdate() {
