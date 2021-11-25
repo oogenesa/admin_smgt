@@ -3,6 +3,7 @@ import FileBase64 from "react-file-base64";
 import axios from "axios";
 import { DatePicker } from "react-rainbow-components";
 import Compressor from "compressorjs";
+import { Image, Transformation } from "cloudinary-react";
 
 export default class FormASM extends Component {
   constructor(props) {
@@ -25,7 +26,7 @@ export default class FormASM extends Component {
       image: "",
       error: "",
       data: "",
-      file_image:{}
+      file_image: {},
     };
   }
   handleBack = () => {
@@ -71,7 +72,7 @@ export default class FormASM extends Component {
           console.log("error 400");
         }
         //history.push("/");
-        // store.set('loggedIn', true);
+        // store.set('loggedIn', true)
       })
       .catch(function (error) {
         if (error.response) {
@@ -90,32 +91,28 @@ export default class FormASM extends Component {
           console.log("Error", error.message);
         }
       });
-  }
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
 
-   
-
     const url = "https://api.cloudinary.com/v1_1/alryntocloud/image/upload";
     let formData = new FormData();
-    formData.append("api_key",'149594186181141');
+    formData.append("api_key", "149594186181141");
     formData.append("file", this.state.file_image);
     formData.append("cloud_name", "alryntocloud");
     formData.append("upload_preset", "smgtdepok");
 
     axios
-    .post(url, formData)
-    .then((result) => {
-        //console.log(result);
-      this.setState({ image: result.data.url })
-      this.uploadForm()
-    })
-    .catch((err) => {
+      .post(url, formData)
+      .then((result) => {
+        console.log(result);
+        this.setState({ image: result.data.public_id });
+        //this.uploadForm()
+      })
+      .catch((err) => {
         console.log(err);
-    })
-    
-    
+      });
   };
   render() {
     var loops = [];
@@ -358,7 +355,9 @@ export default class FormASM extends Component {
                         capture="”camera"
                         type="file"
                         required
-                        onChange={(e) => this.setState({ file_image: e.target.files[0] })}
+                        onChange={(e) =>
+                          this.setState({ file_image: e.target.files[0] })
+                        }
                       />
                     </div>
                   </div>
@@ -385,10 +384,18 @@ export default class FormASM extends Component {
               </div>
               <div className="row">
                 <div className="col-md-6">
-                  <img
-                    style={{ width: "100%", height: 300 }}
-                    src={this.state.image}
-                  />
+                  <Image
+                    cloudName="alryntocloud"
+                    upload_preset="smgtdepok"
+                    publicId={this.state.image}
+                  >
+                    {/* <Transformation
+                      width="100"
+                      height="100"
+                      gravity="south"
+                      crop="fill"
+                    /> */}
+                  </Image>
                 </div>
               </div>
               <button type="submit" className="btn btn-primary">
@@ -398,7 +405,7 @@ export default class FormASM extends Component {
           </form>
           {/* <div>{this.state.image}</div> */}
           <div className="btn btn-info">
-            <a onClick={this.handleBack}>Back</a>
+            <a onClick={() => this.handleBack()}>Back</a>
           </div>
         </div>
       </div>

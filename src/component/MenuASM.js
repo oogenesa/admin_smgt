@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { get_all_asm } from "../helpers/apiFunction";
+import { Image, Transformation } from "cloudinary-react";
 export default class MenuASM extends Component {
   constructor(props) {
     super(props);
     this.state = {
       asm: [],
       class_sm: "all",
-      asm_class : [],
+      asm_class: [],
     };
   }
   componentDidMount() {
@@ -17,34 +18,33 @@ export default class MenuASM extends Component {
       // if (res.length === 0) {
       //   console.log("data tidak ditemukan");
       // } else {
-        this.setState({ asm: res, asm_class :res});
-        
+      this.setState({ asm: res, asm_class: res });
+
       // }
     });
   }
   handleClickAdd = () => {
     const send = {
-      idmenuasm : 2,
-      idasm : "id"
-    }
-    console.log('add')
-    this.props.onChangeASM(send)
+      idmenuasm: 2,
+      idasm: "id",
+    };
+    console.log("add");
+    this.props.onChangeASM(send);
   };
-  handleClickDetail =(id)=>{
+  handleClickDetail = (id) => {
     const send = {
-      idmenuasm : 3,
-      idasm : id
-    }
-    console.log('detail')
-    this.props.onChangeASM(send)
-  }
+      idmenuasm: 3,
+      idasm: id,
+    };
+    console.log("detail");
+    this.props.onChangeASM(send);
+  };
 
-  handleChangeClass = (e)=>{
-    var temp = this.state.asm
-    var asm_classes = []
-    this.setState({class_sm: e})
+  handleChangeClass = (e) => {
+    var temp = this.state.asm;
+    var asm_classes = [];
+    this.setState({ class_sm: e });
 
-   
     if (e === "all") {
       this.setState({ asm_class: temp });
     } else {
@@ -55,8 +55,7 @@ export default class MenuASM extends Component {
       });
       this.setState({ asm_class: asm_classes });
     }
-    
-  }
+  };
   render() {
     return (
       <div>
@@ -94,11 +93,23 @@ export default class MenuASM extends Component {
                 <div className="card card-primary card-outline">
                   <div className="card-body box-profile">
                     <div className="text-center">
-                      <img
+                      {/* <img
                         className="profile-user-img img-fluid img-circle"
                         src={anak.image}
                         alt="User profile picture"
-                      />
+                      /> */}
+                      <Image
+                        cloudName="alryntocloud"
+                        upload_preset="smgtdepok"
+                        publicId={anak.image}
+                      >
+                        <Transformation
+                          width="100"
+                          height="100"
+                          gravity="face"
+                          crop="fill"
+                        />
+                      </Image>
                     </div>
                     <h3 className="profile-username text-center">
                       {anak.full_name}
