@@ -14,12 +14,12 @@ export default class MenuASM extends Component {
       count: 4,
     };
     get_all_asm(send).then((res) => {
-      if (res.length === 0) {
-        console.log("data tidak ditemukan");
-      } else {
+      // if (res.length === 0) {
+      //   console.log("data tidak ditemukan");
+      // } else {
         this.setState({ asm: res, asm_class :res});
         
-      }
+      // }
     });
   }
   handleClickAdd = () => {
@@ -76,18 +76,17 @@ export default class MenuASM extends Component {
             </a>
           </div>
           <div className="row col-md-3">
-          <select
-                      className="form-control"
-                      value={this.state.class_sm}
-                      onChange={(e) =>this.handleChangeClass(e.target.value)
-                      }
-                    >
-                       <option value="all">All</option>
-                       <option value="Balita">Balita</option>
-                      <option value="Kecil">Kecil</option>
-                      <option value="Besar">Besar</option>
-                      <option value="Remaja">Remaja</option>
-                    </select>
+            <select
+              className="form-control"
+              value={this.state.class_sm}
+              onChange={(e) => this.handleChangeClass(e.target.value)}
+            >
+              <option value="all">All</option>
+              <option value="Balita">Balita</option>
+              <option value="Kecil">Kecil</option>
+              <option value="Besar">Besar</option>
+              <option value="Remaja">Remaja</option>
+            </select>
           </div>
           <div className="row">
             {this.state.asm_class.map((anak) => (
@@ -116,7 +115,10 @@ export default class MenuASM extends Component {
                       className="btn-group btn-group-sm"
                     >
                       <div>
-                        <a  className="btn btn-info" onClick={()=>this.handleClickDetail(anak._id)}>
+                        <a
+                          className="btn btn-info"
+                          onClick={() => this.handleClickDetail(anak._id)}
+                        >
                           <i className="fas fa-eye"></i>
                           Detail
                         </a>

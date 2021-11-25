@@ -25,6 +25,7 @@ export default class FormASM extends Component {
       image: "",
       error: "",
       data: "",
+      file_image:{}
     };
   }
   handleBack = () => {
@@ -36,31 +37,14 @@ export default class FormASM extends Component {
   };
   componentDidMount() {}
   componentDidUpdate() {
-    // console.log(this.state.birth_date);
+    //console.log(this.state)
   }
   handleError = (err) => {
     console.log(err + "400");
     this.setState({ error: 400 });
   };
 
-  // handleCompressedUpload = (e) => {
-  //   const image = e;
-  //   new Compressor(image, {
-  //     quality: 0.8, // 0.6 can also be used, but its not recommended to go below.
-  //     success: (res) => {
-  //       // compressedResult has the compressed file.
-  //       // Use the compressed file to upload the images to your server.
-  //       //setCompressedFile(res)
-  //       console.log(res);
-
-  //     },
-  //   });
-  //   console.log(this.state.image);
-  // };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-
+  uploadForm = () => {
     const asm = {
       full_name: this.state.full_name,
       nick_name: this.state.nick_name,
@@ -79,7 +63,6 @@ export default class FormASM extends Component {
       image: this.state.image,
     };
     var self = this;
-
     axios
       .post("http://localhost:5000/asm/", asm)
       .then((res) => {
@@ -107,6 +90,32 @@ export default class FormASM extends Component {
           console.log("Error", error.message);
         }
       });
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+   
+
+    const url = "https://api.cloudinary.com/v1_1/alryntocloud/image/upload";
+    let formData = new FormData();
+    formData.append("api_key",'149594186181141');
+    formData.append("file", this.state.file_image);
+    formData.append("cloud_name", "alryntocloud");
+    formData.append("upload_preset", "smgtdepok");
+
+    axios
+    .post(url, formData)
+    .then((result) => {
+        //console.log(result);
+      this.setState({ image: result.data.url })
+      this.uploadForm()
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+    
+    
   };
   render() {
     var loops = [];
@@ -337,19 +346,20 @@ export default class FormASM extends Component {
                     <label>Unggah gambar</label>
                     <small>maximum 200kb </small>
                     <div className="form-control">
-                      <FileBase64
+                      {/* <FileBase64
                         type="file"
                         multiple={false}
                         onDone={({ base64 }) =>
                           this.setState({ image: base64 })
                         }
-                      />
-                      {/* <input
+                      /> */}
+                      <input
                         accept="image/*,capture=camera"
                         capture="”camera"
                         type="file"
-                        onChange={(event) => this.handleCompressedUpload(event)}
-                      /> */}
+                        required
+                        onChange={(e) => this.setState({ file_image: e.target.files[0] })}
+                      />
                     </div>
                   </div>
                 </div>

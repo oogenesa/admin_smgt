@@ -132,6 +132,7 @@ module.exports.asm_get = async (req, res) => {
     await ASM.find({}, field).exec(function (err, result) {
       if (err) throw err;
       res.status(201).json(result);
+      console.log(result);
     });
   } catch (err) {
     console.log(err);
