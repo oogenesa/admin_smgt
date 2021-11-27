@@ -108,7 +108,8 @@ export default class FormASM extends Component {
       .then((result) => {
         console.log(result);
         this.setState({ image: result.data.public_id });
-        //this.uploadForm()
+        this.uploadForm();
+        this.handleBack();
       })
       .catch((err) => {
         console.log(err);

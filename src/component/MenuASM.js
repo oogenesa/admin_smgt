@@ -74,7 +74,7 @@ export default class MenuASM extends Component {
               Tambah ASM
             </a>
           </div>
-          <div className="row col-md-3">
+          <div className="row col-md-3" style={{marginBottom: 10}}>
             <select
               className="form-control"
               value={this.state.class_sm}
@@ -108,6 +108,7 @@ export default class MenuASM extends Component {
                           height="100"
                           gravity="face"
                           crop="fill"
+                          radius="max"
                         />
                       </Image>
                     </div>

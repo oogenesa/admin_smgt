@@ -1,5 +1,5 @@
-const User = require ('../models/User');
-const jwt = require ('jsonwebtoken');
+const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 const ASM = require("../models/ASM");
 
 //handle errors
@@ -132,7 +132,6 @@ module.exports.asm_get = async (req, res) => {
     await ASM.find({}, field).exec(function (err, result) {
       if (err) throw err;
       res.status(201).json(result);
-      console.log(result);
     });
   } catch (err) {
     console.log(err);
@@ -142,19 +141,11 @@ module.exports.asm_get = async (req, res) => {
 
 module.exports.asm_get_id = async (req, res) => {
   console.log("Request Id:", req.params.id);
-  // const field = {
-  //   _id: 1,
-  //   full_name: 1,
-  //   nick_name: 1,
-  //   birth_date: 1,
-  //   class_sm: 1,
-  //   image: 1,
-  // };
   try {
     await ASM.find({ _id: req.params.id }).exec(function (err, result) {
       if (err) throw err;
       res.status(201).json(result);
-      console.log(result);
+      //console.log(result);
     });
   } catch (err) {
     console.log(err);
