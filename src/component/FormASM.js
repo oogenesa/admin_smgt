@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import FileBase64 from "react-file-base64";
 import axios from "axios";
-import { DatePicker } from "react-rainbow-components";
+import { DatePicker, Modal, Button } from "react-rainbow-components";
 import Compressor from "compressorjs";
 import { Image, Transformation } from "cloudinary-react";
-
+import { get_asm_byId } from "../helpers/apiFunction";
 export default class FormASM extends Component {
   constructor(props) {
     super(props);
@@ -27,6 +27,7 @@ export default class FormASM extends Component {
       error: "",
       data: "",
       file_image: {},
+      isOpenModal: false,
     };
   }
   handleBack = () => {
@@ -36,7 +37,35 @@ export default class FormASM extends Component {
     };
     this.props.onChangeASM(send);
   };
-  componentDidMount() {}
+  componentDidMount() {
+    if (this.props.isEdit) {
+      const send = { id: this.props.idasm };
+
+      get_asm_byId(send).then((res) => {
+        if (res.length === 0) {
+          console.log("data tidak ditemukan");
+        } else {
+          this.setState({
+            full_name: res[0].full_name,
+            nick_name: res[0].nick_name,
+            gender: res[0].gender,
+            blood_type: res[0].blood_type,
+            birth_date: res[0].birth_date,
+            mother_name: res[0].mother_name,
+            father_name: res[0].father_name,
+            mother_cp: res[0].mother_cp,
+            father_cp: res[0].father_cp,
+            school: res[0].school,
+            address: res[0].address,
+            hobby: res[0].hobby,
+            class_sm: res[0].class_sm,
+            school_grade: res[0].school_grade,
+            image: res[0].image,
+          });
+        }
+      });
+    }
+  }
   componentDidUpdate() {
     //console.log(this.state)
   }
@@ -44,7 +73,12 @@ export default class FormASM extends Component {
     console.log(err + "400");
     this.setState({ error: 400 });
   };
-
+  handleOnClose = () => {
+    this.setState({ isOpenModal: false });
+  };
+  handleOnClick = () => {
+    this.setState({ isOpenModal: true });
+  };
   uploadForm = () => {
     const asm = {
       full_name: this.state.full_name,
@@ -116,6 +150,7 @@ export default class FormASM extends Component {
       });
   };
   render() {
+    const { isOpenModal } = this.state;
     var loops = [];
     for (var i = 0; i <= 9; i++) {
       loops.push(
@@ -390,12 +425,12 @@ export default class FormASM extends Component {
                     upload_preset="smgtdepok"
                     publicId={this.state.image}
                   >
-                    {/* <Transformation
+                    <Transformation
                       width="100"
                       height="100"
                       gravity="south"
                       crop="fill"
-                    /> */}
+                    />
                   </Image>
                 </div>
               </div>
@@ -409,6 +444,23 @@ export default class FormASM extends Component {
             <a onClick={() => this.handleBack()}>Back</a>
           </div>
         </div>
+        <Button
+          id="button-1"
+          variant="neutral"
+          label="Open Modal"
+          onClick={this.handleOnClick}
+        />
+        <Modal
+          id="modal-1"
+          isOpen={isOpenModal}
+          onRequestClose={this.handleOnClose}
+        >
+          <img
+            src="images/illustrations/Illustration-rainbow-1.svg"
+            className="rainbow-p-around_xx-large rainbow-m_auto rainbow-align-content_center"
+            alt="landscape with rainbows, birds and colorful balloons"
+          />
+        </Modal>
       </div>
     );
   }

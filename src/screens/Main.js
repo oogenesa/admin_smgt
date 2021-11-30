@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import FormGSM from "../component/FormGSM";
 import FormASM from "../component/FormASM";
 import MenuASM from "../component/MenuASM";
@@ -43,7 +43,7 @@ export default class Main extends Component {
             case 2:
               return (
                 <div>
-                  <FormASM onChangeASM={(e) => change(e)} />
+                  <FormASM isEdit={false} onChangeASM={(e) => change(e)} />
                 </div>
               );
               break;
@@ -51,6 +51,17 @@ export default class Main extends Component {
               return (
                 <div>
                   <DetailASM idasm={idasm} onChangeASM={(e) => change(e)} />
+                </div>
+              );
+              break;
+            case 4:
+              return (
+                <div>
+                  <FormASM
+                    isEdit={true}
+                    idasm={idasm}
+                    onChangeASM={(e) => change(e)}
+                  />
                 </div>
               );
             default:

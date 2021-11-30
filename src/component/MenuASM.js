@@ -39,6 +39,14 @@ export default class MenuASM extends Component {
     console.log("detail");
     this.props.onChangeASM(send);
   };
+  handleClickEdit = (id) => {
+    const send = {
+      idmenuasm: 4,
+      idasm: id,
+    };
+    console.log("edit");
+    this.props.onChangeASM(send);
+  };
 
   handleChangeClass = (e) => {
     var temp = this.state.asm;
@@ -74,7 +82,7 @@ export default class MenuASM extends Component {
               Tambah ASM
             </a>
           </div>
-          <div className="row col-md-3" style={{marginBottom: 10}}>
+          <div className="row col-md-3" style={{ marginBottom: 10 }}>
             <select
               className="form-control"
               value={this.state.class_sm}
@@ -136,7 +144,10 @@ export default class MenuASM extends Component {
                         </a>
                       </div>
                       <div>
-                        <a className="btn btn-danger">
+                        <a
+                          className="btn btn-danger"
+                          onClick={() => this.handleClickEdit(anak._id)}
+                        >
                           <i className="fas fa-pen"></i>
                           Edit
                         </a>

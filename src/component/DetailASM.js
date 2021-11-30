@@ -1,11 +1,24 @@
 import React, { Component } from "react";
 import { get_asm_byId } from "../helpers/apiFunction";
 import { Image, Transformation } from "cloudinary-react";
+import { Table, Column } from "react-rainbow-components";
 export default class DetailASM extends Component {
   constructor(props) {
     super(props);
     this.state = {
       asm: {},
+      test: [
+        {
+          id: 1,
+          date: "11-01-2021",
+          presence: "hadir",
+        },
+        {
+          id: 2,
+          date: "18-01-2021",
+          presence: "tidak hadir",
+        },
+      ],
     };
   }
 
@@ -142,9 +155,43 @@ export default class DetailASM extends Component {
                     : {this.state.asm.father_name} ({this.state.asm.father_cp})
                   </div>
                 </div>
+                <h3>Lain-lain</h3>
+                <div className="row">
+                  <div className="col-md-3 ">
+                    <p>Sekolah </p>
+                  </div>
+                  <div className="col-md-8">
+                    : {this.state.asm.school} (Kelas{" "}
+                    {this.state.asm.school_grade})
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-3">
+                    <p>Alamat</p>
+                  </div>
+                  <div className="col-md-8">: {this.state.asm.address}</div>
+                </div>
+                <div className="row">
+                  <div className="col-md-3">
+                    <p>Hobby</p>
+                  </div>
+                  <div className="col-md-8">: {this.state.asm.hobby}</div>
+                </div>
               </div>
+              <div className="col-md-6"></div>
             </div>
           </section>
+        </div>
+        <div>
+          <div className="col-md-6">
+            <h4>Kehadiran</h4>
+            <Table data={this.state.test} keyField="id">
+              <Column header="Tanggal" field="date" />
+              <Column header="Kehadiran" field="presence" />
+              {/* <Column header="Company" field="company" />
+            <Column header="Email" field="email" /> */}
+            </Table>
+          </div>
         </div>
         <div className="btn btn-info">
           <a onClick={() => this.handleBack()}>Back</a>
