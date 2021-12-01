@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import FileBase64 from "react-file-base64";
 import axios from "axios";
 import { DatePicker, Modal, Button } from "react-rainbow-components";
-import Compressor from "compressorjs";
 import { Image, Transformation } from "cloudinary-react";
 import { get_asm_byId } from "../helpers/apiFunction";
 export default class FormASM extends Component {
@@ -28,6 +26,8 @@ export default class FormASM extends Component {
       data: "",
       file_image: {},
       isOpenModal: false,
+      image_before: "",
+      id: "",
     };
   }
   handleBack = () => {
@@ -61,6 +61,8 @@ export default class FormASM extends Component {
             class_sm: res[0].class_sm,
             school_grade: res[0].school_grade,
             image: res[0].image,
+            image_before: res[0].image,
+            id: res[0]._id,
           });
         }
       });
@@ -76,9 +78,11 @@ export default class FormASM extends Component {
   handleOnClose = () => {
     this.setState({ isOpenModal: false });
   };
-  handleOnClick = () => {
-    this.setState({ isOpenModal: true });
-  };
+  handleOnClickOK() {
+    console.log("gas");
+    this.setState({ isOpenModal: false });
+    this.handleSubmit();
+  }
   uploadForm = () => {
     const asm = {
       full_name: this.state.full_name,
@@ -127,30 +131,108 @@ export default class FormASM extends Component {
       });
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-
-    const url = "https://api.cloudinary.com/v1_1/alryntocloud/image/upload";
-    let formData = new FormData();
-    formData.append("api_key", "149594186181141");
-    formData.append("file", this.state.file_image);
-    formData.append("cloud_name", "alryntocloud");
-    formData.append("upload_preset", "smgtdepok");
+  EditForm = () => {
+    const id = this.state.id;
+    const asm = {
+      full_name: this.state.full_name,
+      nick_name: this.state.nick_name,
+      gender: this.state.gender,
+      blood_type: this.state.blood_type,
+      birth_date: this.state.birth_date,
+      mother_name: this.state.mother_name,
+      father_name: this.state.father_name,
+      mother_cp: this.state.mother_cp,
+      father_cp: this.state.father_cp,
+      school: this.state.school,
+      address: this.state.address,
+      hobby: this.state.hobby,
+      class_sm: this.state.class_sm,
+      school_grade: this.state.school_grade,
+      image: this.state.image,
+    };
+    var self = this;
 
     axios
-      .post(url, formData)
-      .then((result) => {
-        console.log(result);
-        this.setState({ image: result.data.public_id });
-        this.uploadForm();
-        this.handleBack();
+      .post("http://localhost:5000/asm_edit/" + id, asm)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.status === 400) {
+          console.log("error 400");
+        }
+        //history.push("/");
+        // store.set('loggedIn', true)
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(function (error) {
+        if (error.response) {
+          // Request made and server responded
+          console.log(error.response.data.errors);
+
+          self.setState({ error: error.response.status });
+          self.setState({ data: error.response.data.errors.email });
+          //self.handleError(data);
+          console.log(error.response.status);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log("Error", error.message);
+        }
       });
+  };
+  handleSubmit2 = (e) => {
+    e.preventDefault();
+    this.setState({ isOpenModal: true });
+  };
+  handleSubmit = () => {
+    if (!this.props.isEdit) {
+      const url = "https://api.cloudinary.com/v1_1/alryntocloud/image/upload";
+      let formData = new FormData();
+      formData.append("api_key", "149594186181141");
+      formData.append("file", this.state.file_image);
+      formData.append("cloud_name", "alryntocloud");
+      formData.append("upload_preset", "smgtdepok");
+
+      axios
+        .post(url, formData)
+        .then((result) => {
+          console.log(result);
+          this.setState({ image: result.data.public_id });
+          this.uploadForm();
+          this.handleBack();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      if (this.state.file_image === {}) {
+        this.EditForm();
+        this.handleBack();
+      } else {
+        const url = "https://api.cloudinary.com/v1_1/alryntocloud/image/upload";
+        let formData = new FormData();
+        formData.append("api_key", "149594186181141");
+        formData.append("file", this.state.file_image);
+        formData.append("cloud_name", "alryntocloud");
+        formData.append("upload_preset", "smgtdepok");
+
+        axios
+          .post(url, formData)
+          .then((result) => {
+            console.log(result);
+            this.setState({ image: result.data.public_id });
+            this.EditForm();
+            this.handleBack();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
   };
   render() {
     const { isOpenModal } = this.state;
+    const isEdit = this.props.isEdit;
     var loops = [];
     for (var i = 0; i <= 9; i++) {
       loops.push(
@@ -166,7 +248,7 @@ export default class FormASM extends Component {
           <div className="card-header">
             <h3 className="card-title">Form Tambah Data Anak Sekolah Minggu</h3>
           </div>
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit2}>
             <div className="card-body">
               <div className="row">
                 <div className="col-md-6">
@@ -221,7 +303,7 @@ export default class FormASM extends Component {
                         <DatePicker
                           value={this.state.birth_date}
                           minDate={new Date(1990, 0, 4)}
-                          maxDate={new Date(2022, 0, 4)}
+                          maxDate={new Date()}
                           label="Tanggal Lahir"
                           onChange={(value) =>
                             this.setState({ birth_date: value })
@@ -390,7 +472,7 @@ export default class FormASM extends Component {
                         accept="image/*,capture=camera"
                         capture="”camera"
                         type="file"
-                        required
+                        required={!isEdit}
                         onChange={(e) =>
                           this.setState({ file_image: e.target.files[0] })
                         }
@@ -454,12 +536,23 @@ export default class FormASM extends Component {
           id="modal-1"
           isOpen={isOpenModal}
           onRequestClose={this.handleOnClose}
+          footer={
+            <div>
+              <Button
+                className="rainbow-m-right_large"
+                label="Cancel"
+                variant="neutral"
+                onClick={this.handleOnClose}
+              />
+              <Button
+                label="Lanjutkan"
+                variant="brand"
+                onClick={() => this.handleOnClickOK()}
+              />
+            </div>
+          }
         >
-          <img
-            src="images/illustrations/Illustration-rainbow-1.svg"
-            className="rainbow-p-around_xx-large rainbow-m_auto rainbow-align-content_center"
-            alt="landscape with rainbows, birds and colorful balloons"
-          />
+          <p>Yakin untuk melanjutkan?</p>
         </Modal>
       </div>
     );

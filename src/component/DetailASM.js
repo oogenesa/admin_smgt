@@ -100,7 +100,7 @@ export default class DetailASM extends Component {
     };
     console.log(asm);
     return (
-      <div className="container-fluid">
+      <div>
         <div>
           <section className="content-header">
             <div className="container-fluid">

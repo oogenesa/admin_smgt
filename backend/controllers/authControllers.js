@@ -152,3 +152,34 @@ module.exports.asm_get_id = async (req, res) => {
     res.status(400).json({ err });
   }
 };
+
+module.exports.asm_edit = async (req, res) => {
+  const filter = { _id: req.params.id };
+  const update = {
+    $set: {
+      full_name: req.body.full_name,
+      nick_name: req.body.nick_name,
+      gender: req.body.gender,
+      blood_type: req.body.blood_type,
+      birth_date: req.body.birth_date,
+      mother_name: req.body.mother_name,
+      father_name: req.body.father_name,
+      mother_cp: req.body.mother_cp,
+      father_cp: req.body.father_cp,
+      school: req.body.school,
+      address: req.body.address,
+      hobby: req.body.hobby,
+      class_sm: req.body.class_sm,
+      school_grade: req.body.school_grade,
+      image: req.body.image,
+    },
+  };
+  const options = { upsert: false };
+  try {
+    const result = await ASM.updateOne(filter, update, options);
+    res.status(201).json({ result });
+  } catch (err) {
+    const errors = handleErrors(err);
+    res.status(400).json({ errors });
+  }
+};
