@@ -1,13 +1,21 @@
 import React, { Component } from "react";
-import { Grid, Form, Header, Message } from "semantic-ui-react";
+import {
+  Grid,
+  Form,
+  Header,
+  Message,
+  Button,
+  Card,
+  Image,
+} from "semantic-ui-react";
 import { Helmet } from "react-helmet";
-import store from "store";
 import isLoggedIn from "../helpers/is_login_in";
-import axios from "axios";
-import { Card, Input } from "react-rainbow-components";
+import { Input } from "react-rainbow-components";
 import "semantic-ui-css/semantic.min.css";
 import { Redirect } from "react-router-dom";
 import Cookies from "universal-cookie";
+import { login } from "../helpers/apiFunction";
+import logo from "../assets/img/logo.png";
 const cookies = new Cookies();
 export default class Login extends Component {
   constructor(props) {
@@ -17,7 +25,8 @@ export default class Login extends Component {
       email: "",
       password: "",
       error: false,
-      redirect: false,
+      redirectdash: false,
+      redirectregister: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -46,45 +55,23 @@ export default class Login extends Component {
       password: this.state.password,
     };
 
-    axios
-      .post("http://localhost:5000/login/", user, {
-        //AxiosRequestConfig parameter
-        withCredentials: true, //correct
-      })
-      .then((res) => {
-        console.log(res);
-        this.setState({ redirect: true });
-        // history.push('/');
-        // store.set('loggedIn', true);
-      });
-
-    // if (res.data.user) {
-    //       history.push('/');
-    //       store.set('loggedIn', true);
-    //   //     //location.assign('/');
-    // }
-    //  try {
-    //    const res = await fetch('/login', {
-    //      method: 'POST',
-    //      body: JSON.stringify({email, password}),
-    //      headers: {'Content-Type': 'application/json'},
-    //     });
-    //     const data = await res.json();
-    //     console.log(data);
-    //     if (data.errors) {
-    //       // emailError.textContent = data.errors.email;
-    //       // passwordError.textContent = data.errors.password;
-    //       console.log(data.errors)
-    //     }
-    //
-    //   }
-    // } catch (err) {
-    //   //console.log(err);
-    // }
+    login(user).then((res) => {
+      console.log(res);
+      this.setState({ redirectdash: true });
+      // history.push('/');
+      // store.set('loggedIn', true);
+    });
   }
   handleChange(e, { name, value }) {
     this.setState({ [name]: value });
   }
+  handleClickRegister = () => {
+    this.setState({ redirectregister: true });
+    //return <Redirect push to="/register" />;
+  };
+  testfunct = () => {
+    return <Redirect push to="/" />;
+  };
   render() {
     const { error } = this.state;
 
@@ -92,44 +79,102 @@ export default class Login extends Component {
       return <Redirect to="/dashboard" />;
     }
     return (
-      <div>
-        {this.state.redirect ? <Redirect push to="/" /> : null}
-        <Card>
-          <div style={{ backgroundColor: "pink" }}>
-            <Grid style={{ backgroundColor: "yellow" }}>
-              <Helmet>
-                <title>Login</title>
-              </Helmet>
+      <div
+        style={{
+          width: "1400px",
+          display: "flex",
+          height: "100%",
+          flex: 1,
+          flexDirection: "row",
+          alignContent: "center",
+          verticalAlign: "center",
+          justifyContent: "center",
+        }}
+      >
+        {this.state.redirectdash ? <Redirect push to="/" /> : null}
+        {this.state.redirectregister ? <Redirect push to="/register" /> : null}
+        {/* <div
+          style={{
+            height: 400,
+            width: 400,
+            backgroundColor: "green",
+            alignSelf: "center",
+          }}
+        ></div> */}
+        <div
+          style={{
+            marginTop: 150,
+            height: 400,
+            width: 500,
 
-              <Grid.Column width={6} />
-              <Grid.Column width={4}>
-                <Form error={error} onSubmit={this.onSubmit}>
-                  <Header as="h1">Login</Header>
-                  {error && (
-                    <Message
-                      error={error}
-                      content="That Email/password is incorrect. Try again!"
-                    />
-                  )}
-                  <Form.Input
-                    inline
-                    label="Email"
-                    name="email"
-                    onChange={this.handleChange}
+            alignSelf: "center",
+          }}
+        >
+          <Card style={{ width: 700 }}>
+            <div style={{ backgroundColor: "pink" }}>
+              <Grid style={{ width: 700 }}>
+                <Grid.Column width={8} style={{ backgroundColor: "yellow" }}>
+                  <Grid style={{ width: 400 }}>
+                    <Helmet>
+                      <title>Login</title>
+                    </Helmet>
+
+                    <Grid.Column width={2} />
+                    <Grid.Column width={5}>
+                      <Form error={error} onSubmit={this.onSubmit}>
+                        <Header as="h1">Login</Header>
+                        {error && (
+                          <Message
+                            error={error}
+                            content="That Email/password is incorrect. Try again!"
+                          />
+                        )}
+                        <Form.Input
+                          icon="user"
+                          iconPosition="left"
+                          inline
+                          label="Email"
+                          name="email"
+                          onChange={this.handleChange}
+                        />
+                        <Form.Input
+                          icon="lock"
+                          iconPosition="left"
+                          inline
+                          label="Password"
+                          type="password"
+                          name="password"
+                          onChange={this.handleChange}
+                        />
+                        <Form.Button type="submit">Go!</Form.Button>
+                      </Form>
+                    </Grid.Column>
+                    <Grid.Column width={2} />
+                  </Grid>
+                </Grid.Column>
+                <Grid.Column width={5} style={{ backgroundColor: "pink" }}>
+                  <Image
+                    src={logo}
+                    style={{ width: 250, height: 200, marginTop: 10 }}
                   />
-                  <Form.Input
-                    inline
-                    label="Password"
-                    type="password"
-                    name="password"
-                    onChange={this.handleChange}
-                  />
-                  <Form.Button type="submit">Go!</Form.Button>
-                </Form>
-              </Grid.Column>
-            </Grid>
+                </Grid.Column>
+              </Grid>
+            </div>
+          </Card>
+          <div
+            style={{
+              paddingTop: 10,
+              paddingBottom: 10,
+              flexDirection: "row",
+              flex: 1,
+              display: "flex",
+              justifyContent: "space-around",
+            }}
+          >
+            <p>Dont have account?</p>
+            <Button content="Register" onClick={this.handleClickRegister} />
           </div>
-        </Card>
+        </div>
       </div>
     );
   }

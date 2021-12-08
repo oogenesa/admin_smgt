@@ -1,7 +1,8 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const ASM = require("../models/ASM");
-
+require("dotenv").config();
+const { requireAuth, checkUser } = require("../middleware/authMiddleware");
 //handle errors
 const handleErrors = (err) => {
   console.log(err.message, err.code);
@@ -32,9 +33,15 @@ const handleErrors = (err) => {
 const maxAge = 3 * 24 * 60 * 60; //secon
 
 const createToken = (id) => {
-  return jwt.sign({ id }, "smgtdepok123456", {
+  const key = process.env.jwt_key;
+  return jwt.sign({ id }, key, {
     expiresIn: maxAge,
   });
+};
+
+verifyToken = async (token) => {
+  const key = process.env.jwt_key;
+  return jwt.verify(token, key);
 };
 
 module.exports.signup_get = (req, res) => {
@@ -62,8 +69,6 @@ module.exports.login_post = async (req, res) => {
     const user = await User.login(email, password);
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: false, maxAge: maxAge * 1000 });
-    // res.header("Access-Control-Allow-Credentials", true);
-    // res.header("Access-Control-Allow-Origin", "http://localhost:3000");
     res.status(200).json({ user: user._id });
   } catch (err) {
     const errors = handleErrors(err);
@@ -120,7 +125,7 @@ module.exports.asm_post = async (req, res) => {
   }
 };
 
-module.exports.asm_get = async (req, res) => {
+module.exports.asm_get = async (req, res, next) => {
   const field = {
     _id: 1,
     full_name: 1,
@@ -129,14 +134,21 @@ module.exports.asm_get = async (req, res) => {
     class_sm: 1,
     image: 1,
   };
-  try {
-    await ASM.find({}, field).exec(function (err, result) {
-      if (err) throw err;
-      res.status(201).json(result);
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({ err });
+  const auth = await verifyToken(req.cookies.jwt);
+  //const token = req.cookies.jwt;
+  console.log(auth);
+  if (auth.id !== null) {
+    try {
+      await ASM.find({}, field).exec(function (err, result) {
+        if (err) throw err;
+        res.status(201).json(result);
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({ err });
+    }
+  } else {
+    res.status(401).json({ token: "fail token" });
   }
 };
 

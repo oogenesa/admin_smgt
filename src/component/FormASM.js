@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { DatePicker, Modal, Button } from "react-rainbow-components";
 import { Image, Transformation } from "cloudinary-react";
-import { get_asm_byId } from "../helpers/apiFunction";
+import { get_asm_byId, post_asm, edit_asm } from "../helpers/apiFunction";
 export default class FormASM extends Component {
   constructor(props) {
     super(props);
@@ -102,15 +102,12 @@ export default class FormASM extends Component {
       image: this.state.image,
     };
     var self = this;
-    axios
-      .post("http://localhost:5000/asm/", asm)
+    post_asm(asm)
       .then((res) => {
         console.log(res.data);
         if (res.data.status === 400) {
           console.log("error 400");
         }
-        //history.push("/");
-        // store.set('loggedIn', true)
       })
       .catch(function (error) {
         if (error.response) {
@@ -152,8 +149,7 @@ export default class FormASM extends Component {
     };
     var self = this;
 
-    axios
-      .post("http://localhost:5000/asm_edit/" + id, asm)
+    edit_asm(id, asm)
       .then((res) => {
         console.log(res.data);
         if (res.data.status === 400) {
@@ -526,12 +522,7 @@ export default class FormASM extends Component {
             <a onClick={() => this.handleBack()}>Back</a>
           </div>
         </div>
-        <Button
-          id="button-1"
-          variant="neutral"
-          label="Open Modal"
-          onClick={this.handleOnClick}
-        />
+
         <Modal
           id="modal-1"
           isOpen={isOpenModal}

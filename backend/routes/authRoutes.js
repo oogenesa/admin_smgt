@@ -1,6 +1,12 @@
 const router = require("express").Router();
 const authController = require("../controllers/authControllers");
 
+// router.use(function (req, res, next) {
+//   const token = req.cookies.jwt;
+//   console.log(token);
+//   next();
+// });
+// router.use(requireAuth);
 router.get("/signup", authController.signup_get);
 router.post("/signup", authController.signup_post);
 router.get("/login", authController.login_get);
