@@ -51,7 +51,7 @@ export default class Login extends Component {
     //   return this.setState({ error: true });
     // }
     const user = {
-      email: this.state.email,
+      username: this.state.email,
       password: this.state.password,
     };
 

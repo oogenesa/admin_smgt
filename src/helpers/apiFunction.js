@@ -15,7 +15,19 @@ export const login = (send) => {
       console.log(err);
     });
 };
-
+export const signup = (send) => {
+  let url = API_URL + "signup";
+  return axios
+    .post(url, send, {
+      withCredentials: true,
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 export const get_all_asm = (send) => {
   let url = API_URL + "asm";
   return axios

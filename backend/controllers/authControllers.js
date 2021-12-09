@@ -6,19 +6,23 @@ const { requireAuth, checkUser } = require("../middleware/authMiddleware");
 //handle errors
 const handleErrors = (err) => {
   console.log(err.message, err.code);
-  let errors = { email: "", password: "" };
+  let errors = { username: "", password: "" };
 
   //incorect email
-  if (err.message === "incorrect email") {
-    errors.email = "that email is not registered";
+  if (err.message === "incorrect username") {
+    errors.username = "that username is not registered";
   }
   //incorrect password
   if (err.message === "incorrect password") {
-    errors.password = "that password is not registered";
+    errors.password = "that password is incorrect";
   }
 
   if (err.code === 11000) {
-    errors.email = "that email is already registered";
+    errors.username = "that username is already registered";
+    return errors;
+  }
+  if (err.message === "User is not active") {
+    errors.username = "User is not active, please contact admin";
     return errors;
   }
 
@@ -52,9 +56,15 @@ module.exports.login_get = (req, res) => {
   res.render("login");
 };
 module.exports.signup_post = async (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
+
   try {
-    const user = await User.create({ email, password });
+    const user = await User.create({
+      username,
+      password,
+      active: false,
+      role: 1,
+    });
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: false, maxAge: maxAge * 1000 });
     res.status(201).json({ user: user._id });
@@ -64,12 +74,12 @@ module.exports.signup_post = async (req, res) => {
   }
 };
 module.exports.login_post = async (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
   try {
-    const user = await User.login(email, password);
+    const user = await User.login(username, password);
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: false, maxAge: maxAge * 1000 });
-    res.status(200).json({ user: user._id });
+    res.status(200).json({ user: user._id, role: user.role });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
@@ -134,22 +144,23 @@ module.exports.asm_get = async (req, res, next) => {
     class_sm: 1,
     image: 1,
   };
-  const auth = await verifyToken(req.cookies.jwt);
+  console.log(req.cookies.jwt);
+  //const auth = await verifyToken(req.cookies.jwt);
   //const token = req.cookies.jwt;
-  console.log(auth);
-  if (auth.id !== null) {
-    try {
-      await ASM.find({}, field).exec(function (err, result) {
-        if (err) throw err;
-        res.status(201).json(result);
-      });
-    } catch (err) {
-      console.log(err);
-      res.status(400).json({ err });
-    }
-  } else {
-    res.status(401).json({ token: "fail token" });
+  // console.log(auth);
+  // if (auth.id !== null) {
+  try {
+    await ASM.find({}, field).exec(function (err, result) {
+      if (err) throw err;
+      res.status(201).json(result);
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ err });
   }
+  // } else {
+  //   res.status(401).json({ token: "fail token" });
+  // }
 };
 
 module.exports.asm_get_id = async (req, res) => {
