@@ -20,6 +20,7 @@
     "react-rainbow-components": "^1.27.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-table": "^7.7.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.4",
     "store": "^2.0.12",

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { get_all_asm } from "../helpers/apiFunction";
 import { Image, Transformation } from "cloudinary-react";
+import TableASM from "./TableASM";
 export default class MenuASM extends Component {
   constructor(props) {
     super(props);
@@ -160,6 +161,7 @@ export default class MenuASM extends Component {
             ))}
           </div>
         </div>
+        <TableASM asm={this.state.asm} />
       </div>
     );
   }
