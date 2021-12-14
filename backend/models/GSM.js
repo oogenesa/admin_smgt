@@ -33,17 +33,59 @@ const GSMSchema = new mongoose.Schema({
     type: String,
     required: [true, "Silakan Masukkan Minat"],
   },
-  class_sm: {
+  contact_number: {
+    type: String,
+    required: [true, "Silakan Masukkan kontak"],
+  },
+  priority_class: {
     type: String,
     required: [true, "Silakan Masukkan Kelas"],
   },
-  school_grade: {
+  join_date: {
+    type: Date,
+    required: [true, "Silakan Pilih Tanggal Lahir"],
+  },
+
+  sermon: {
+    type: Boolean,
+  },
+  worship_leader: {
+    type: Boolean,
+  },
+  assistant: {
+    type: Boolean,
+  },
+  guitar: {
+    type: Boolean,
+  },
+  keyboard: {
+    type: Boolean,
+  },
+  cajon: {
+    type: Boolean,
+  },
+
+  instagram: {
     type: String,
-    required: [true, "Silakan Masukkan Kelas"],
+  },
+  twitter: {
+    type: String,
+  },
+  facebook: {
+    type: String,
+  },
+
+  certification_level: {
+    type: String,
+    required: [true, "Silakan masukkan tahap pembinaan"],
   },
   image: {
     type: String,
-    required: [true, "Silakan Masukkan Foto Anak"],
+    required: [true, "Silakan Masukkan Foto Guru"],
+  },
+  input_date: {
+    type: Date,
+    required: [true, ""],
   },
 });
 
@@ -70,6 +112,6 @@ const GSMSchema = new mongoose.Schema({
 //   throw Error ('incorrect email');
 // };
 
-const GSM = mongoose.model("gsm", ASMSchema);
+const GSM = mongoose.model("gsm", GSMSchema);
 
 module.exports = GSM;

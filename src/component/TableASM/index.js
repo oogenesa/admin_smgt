@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
+import "./style.css";
 
 const TableASM = (props) => {
   const column = [
