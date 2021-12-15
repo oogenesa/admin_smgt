@@ -87,6 +87,10 @@ const GSMSchema = new mongoose.Schema({
     type: Date,
     required: [true, ""],
   },
+  active: {
+    type: Boolean,
+    required: [true, ""],
+  },
 });
 
 // userSchema.post ('save', function (doc, next) {

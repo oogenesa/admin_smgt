@@ -67,6 +67,7 @@ module.exports.signup_post = async (req, res) => {
     });
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: false, maxAge: maxAge * 1000 });
+
     res.status(201).json({ user: user._id });
   } catch (err) {
     const errors = handleErrors(err);
@@ -79,6 +80,7 @@ module.exports.login_post = async (req, res) => {
     const user = await User.login(username, password);
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: false, maxAge: maxAge * 1000 });
+    res.cookie("role", user.role, { httpOnly: false, maxAge: maxAge * 1000 });
     res.status(200).json({ user: user._id, role: user.role });
   } catch (err) {
     const errors = handleErrors(err);
@@ -88,5 +90,6 @@ module.exports.login_post = async (req, res) => {
 
 module.exports.logout_get = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
+  res.cookie("role", "", { maxAge: 1 });
   res.redirect("/");
 };

@@ -2,6 +2,10 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5000/";
 
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+const logedin = cookies.get("jwt");
+
 export const login = (send) => {
   let url = API_URL + "login";
   return axios

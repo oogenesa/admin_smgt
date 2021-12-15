@@ -13,9 +13,9 @@ import isLoggedIn from "../helpers/is_login_in";
 import { Input } from "react-rainbow-components";
 import "semantic-ui-css/semantic.min.css";
 import { Redirect } from "react-router-dom";
-import Cookies from "universal-cookie";
 import { login } from "../helpers/apiFunction";
 import logo from "../assets/img/logo.png";
+import Cookies from "universal-cookie";
 const cookies = new Cookies();
 export default class Login extends Component {
   constructor(props) {

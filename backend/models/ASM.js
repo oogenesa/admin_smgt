@@ -60,6 +60,14 @@ const ASMSchema = new mongoose.Schema({
     type: String,
     required: [true, "Silakan Masukkan Foto Anak"],
   },
+  input_date: {
+    type: Date,
+    required: [true, ""],
+  },
+  active: {
+    type: Boolean,
+    required: [true, ""],
+  },
 });
 
 // userSchema.post ('save', function (doc, next) {
