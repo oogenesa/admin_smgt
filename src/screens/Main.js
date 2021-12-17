@@ -3,6 +3,7 @@ import FormGSM from "../component/FormGSM";
 import FormASM from "../component/FormASM";
 import MenuASM from "../component/MenuASM";
 import DetailASM from "../component/DetailASM";
+import Absensi from "../component/Absensi";
 export default class Main extends Component {
   constructor(props) {
     super(props);
@@ -73,6 +74,13 @@ export default class Main extends Component {
           return (
             <div>
               <FormGSM />
+            </div>
+          );
+          break;
+        case 3:
+          return (
+            <div>
+              <Absensi />
             </div>
           );
           break;

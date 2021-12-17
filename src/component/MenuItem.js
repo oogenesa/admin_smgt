@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
 export default class MenuItem extends Component {
   constructor(props) {
@@ -32,6 +32,18 @@ export default class MenuItem extends Component {
         num: 2,
         name: "GSM",
         logo: "nav-icon fas fa-user-tie",
+        status: "active",
+      },
+      {
+        num: 3,
+        name: "Absensi",
+        logo: "nav-icon fas fa-clipboard-list",
+        status: "active",
+      },
+      {
+        num: 4,
+        name: "Pengurus",
+        logo: "nav-icon fas fa-people-carry",
         status: "active",
       },
     ];
