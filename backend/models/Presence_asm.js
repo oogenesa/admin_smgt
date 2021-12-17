@@ -22,6 +22,6 @@ const PresenceSchema = new mongoose.Schema({
   },
 });
 
-const Presence = mongoose.model("presence", PresenceSchema);
+const Presence_asm = mongoose.model("presence", PresenceSchema);
 
-module.exports = Presence;
+module.exports = Presence_asm;

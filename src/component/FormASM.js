@@ -83,19 +83,20 @@ export default class FormASM extends Component {
     this.setState({ isOpenModal: false });
     this.handleSubmit();
   }
+
   uploadForm = () => {
     const asm = {
-      full_name: this.state.full_name,
-      nick_name: this.state.nick_name,
+      full_name: this.state.full_name.toLowerCase(),
+      nick_name: this.state.nick_name.toLowerCase(),
       gender: this.state.gender,
       blood_type: this.state.blood_type,
       birth_date: this.state.birth_date,
-      mother_name: this.state.mother_name,
-      father_name: this.state.father_name,
+      mother_name: this.state.mother_name.toLowerCase(),
+      father_name: this.state.father_name.toLowerCase(),
       mother_cp: this.state.mother_cp,
       father_cp: this.state.father_cp,
-      school: this.state.school,
-      address: this.state.address,
+      school: this.state.school.toLowerCase(),
+      address: this.state.address.toLowerCase(),
       hobby: this.state.hobby,
       class_sm: this.state.class_sm,
       school_grade: this.state.school_grade,
@@ -131,17 +132,17 @@ export default class FormASM extends Component {
   EditForm = () => {
     const id = this.state.id;
     const asm = {
-      full_name: this.state.full_name,
-      nick_name: this.state.nick_name,
+      full_name: this.state.full_name.toLowerCase(),
+      nick_name: this.state.nick_name.toLowerCase(),
       gender: this.state.gender,
       blood_type: this.state.blood_type,
       birth_date: this.state.birth_date,
-      mother_name: this.state.mother_name,
-      father_name: this.state.father_name,
+      mother_name: this.state.mother_name.toLowerCase(),
+      father_name: this.state.father_name.toLowerCase(),
       mother_cp: this.state.mother_cp,
       father_cp: this.state.father_cp,
-      school: this.state.school,
-      address: this.state.address,
+      school: this.state.school.toLowerCase(),
+      address: this.state.address.toLowerCase(),
       hobby: this.state.hobby,
       class_sm: this.state.class_sm,
       school_grade: this.state.school_grade,
@@ -457,13 +458,6 @@ export default class FormASM extends Component {
                     <label>Unggah gambar</label>
                     <small>maximum 200kb </small>
                     <div className="form-control">
-                      {/* <FileBase64
-                        type="file"
-                        multiple={false}
-                        onDone={({ base64 }) =>
-                          this.setState({ image: base64 })
-                        }
-                      /> */}
                       <input
                         accept="image/*,capture=camera"
                         capture="”camera"
@@ -517,7 +511,7 @@ export default class FormASM extends Component {
               </button>
             </div>
           </form>
-          {/* <div>{this.state.image}</div> */}
+
           <div className="btn btn-info">
             <a onClick={() => this.handleBack()}>Back</a>
           </div>

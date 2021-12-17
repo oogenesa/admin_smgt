@@ -89,7 +89,7 @@ module.exports.asm_get = async (req, res) => {
     class_sm: 1,
     image: 1,
   };
-  console.log(req.cookies.jwt);
+
   //const auth = await verifyToken(req.cookies.jwt);
   //const token = req.cookies.jwt;
   // console.log(auth);
@@ -109,7 +109,6 @@ module.exports.asm_get = async (req, res) => {
 };
 
 module.exports.asm_get_id = async (req, res) => {
-  console.log("Request Id:", req.params.id);
   try {
     await ASM.find({ _id: req.params.id }).exec(function (err, result) {
       if (err) throw err;

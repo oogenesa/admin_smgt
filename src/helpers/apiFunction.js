@@ -32,7 +32,7 @@ export const signup = (send) => {
       console.log(err);
     });
 };
-export const get_all_asm = (send) => {
+export const get_all_asm = () => {
   let url = API_URL + "asm";
   return axios
     .get(url)

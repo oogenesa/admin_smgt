@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { get_asm_byId } from "../helpers/apiFunction";
+import { get_asm_byId } from "../../helpers/apiFunction";
 import { Image, Transformation } from "cloudinary-react";
 import { Table, Column } from "react-rainbow-components";
 export default class DetailASM extends Component {
@@ -30,53 +30,51 @@ export default class DetailASM extends Component {
     this.props.onChangeASM(send);
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const send = { id: this.props.idasm };
 
     get_asm_byId(send).then((res) => {
-      if (res.length === 0) {
-        console.log("data tidak ditemukan");
-      } else {
-        this.setState({
-          asm: res[0],
-        });
-      }
+      // if (res.length === 0) {
+      //   console.log("data tidak ditemukan");
+      // } else {
+      this.setState({
+        asm: res[0],
+      });
     });
   }
+
   render() {
     const asm = this.state.asm;
-    function toUpper(word) {
-      return word.toUpperCase();
-    }
+    const upper = (str) => {
+      if (typeof str === "string") {
+        var splitStr = str.toLowerCase().split(" ");
+        for (var i = 0; i < splitStr.length; i++) {
+          splitStr[i] =
+            splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+        }
+        return splitStr.join(" ");
+      }
+    };
     const monthNames = [
-      "January",
-      "February",
-      "March",
+      "Januari",
+      "Februari",
+      "Maret",
       "April",
-      "May",
-      "June",
-      "July",
-      "August",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
       "September",
-      "October",
+      "Oktober",
       "November",
       "Desember",
     ];
-
     //dates = this.state.asm.birth_date;
     var formatDate = () => {
       var d = new Date(this.state.asm.birth_date);
       var day = String(d.getDate());
       var month = String(d.getMonth());
       var year = d.getFullYear();
-      //   month = "" + (d.getMonth() + 1),
-      //   day = "" + d.getDate(),
-      //   year = d.getFullYear();
-      console.log(d.getDate());
-      console.log(d.getMonth() + 1);
-      // if (month.length < 2) month = "0" + month;
-      // if (day.length < 2) day = "0" + day;
-
       return [day, monthNames[month], year].join(" ");
     };
 
@@ -98,7 +96,7 @@ export default class DetailASM extends Component {
         flex: 2,
       },
     };
-    console.log(asm);
+
     return (
       <div>
         <div>
@@ -128,13 +126,10 @@ export default class DetailASM extends Component {
                   </Image>
                 </div>
                 <div style={styles.name}>
-                  <h3>{this.state.asm.full_name}</h3>
-                  <h5>Panggil aku {this.state.asm.nick_name}</h5>
+                  <h3>{upper(this.state.asm.full_name)}</h3>
+                  <h5>Panggil aku {upper(this.state.asm.nick_name)}</h5>
                   <h4>Kelas {this.state.asm.class_sm}</h4>
-                  <h4>
-                    {formatDate()}
-                    {}
-                  </h4>
+                  <h4>{formatDate()}</h4>
                 </div>
               </div>
               <div className="col-md-6">
@@ -144,7 +139,8 @@ export default class DetailASM extends Component {
                     <p>Ibu</p>
                   </div>
                   <div className="col-md-8">
-                    : {this.state.asm.mother_name} ({this.state.asm.mother_cp})
+                    : {upper(this.state.asm.mother_name)} (
+                    {this.state.asm.mother_cp})
                   </div>
                 </div>
                 <div className="row">
@@ -152,7 +148,8 @@ export default class DetailASM extends Component {
                     <p>Ayah</p>
                   </div>
                   <div className="col-md-8">
-                    : {this.state.asm.father_name} ({this.state.asm.father_cp})
+                    : {upper(this.state.asm.father_name)} (
+                    {this.state.asm.father_cp})
                   </div>
                 </div>
                 <h3>Lain-lain</h3>
@@ -161,7 +158,7 @@ export default class DetailASM extends Component {
                     <p>Sekolah </p>
                   </div>
                   <div className="col-md-8">
-                    : {this.state.asm.school} (Kelas{" "}
+                    : {upper(this.state.asm.school)} (Kelas{" "}
                     {this.state.asm.school_grade})
                   </div>
                 </div>
@@ -169,7 +166,9 @@ export default class DetailASM extends Component {
                   <div className="col-md-3">
                     <p>Alamat</p>
                   </div>
-                  <div className="col-md-8">: {this.state.asm.address}</div>
+                  <div className="col-md-8">
+                    : {upper(this.state.asm.address)}
+                  </div>
                 </div>
                 <div className="row">
                   <div className="col-md-3">

@@ -12,13 +12,10 @@ export default class Main extends Component {
     {
       if (prevProps.menuActive !== this.props.menuActive) {
         this.setState({ menuActive: this.props.menuActive });
-        //console.log(this.props.menuActive);
       }
     }
   }
   handleChangeASM = (e) => {
-    console.log(e);
-
     this.setState({ asmMenu: e.idmenuasm, asmID: e.idasm });
   };
 
@@ -29,7 +26,6 @@ export default class Main extends Component {
     var idasm = this.state.asmID;
 
     function page(menuActive, asmMenu) {
-      console.log(asmMenu);
       switch (menuActive) {
         case 1:
           switch (asmMenu) {
