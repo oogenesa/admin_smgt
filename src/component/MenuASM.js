@@ -11,6 +11,7 @@ export default class MenuASM extends Component {
       class_sm: "all",
       asm_class: [],
       grid: true,
+      search : ""
     };
   }
   componentDidMount() {
@@ -66,6 +67,11 @@ export default class MenuASM extends Component {
       this.setState({ grid: false });
     }
   };
+  submitSearch = (e) =>{
+    e.preventDefault();
+    console.log(this.state.search)
+
+  }
   render() {
     return (
       <div className="container-fluid">
@@ -133,16 +139,20 @@ export default class MenuASM extends Component {
             </label>
           </div>
         </div>
-        <form className="form-inline ">
+        <form className="form-inline " onSubmit={this.submitSearch}>
           <div className="input-group input-group-sm">
             <input
               className="form-control form-control-navbar"
               type="search"
               placeholder="Search"
               aria-label="Search"
+              value={this.state.search}
+              onChange={(e) =>
+                this.setState({ search: e.target.value })
+              }
             />
             <div className="input-group-append">
-              <button className="btn btn-navbar" type="submit">
+              <button className="btn btn-navbar" type="submit" >
                 <i className="fas fa-search" />
               </button>
             </div>
