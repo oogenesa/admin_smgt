@@ -13,10 +13,12 @@ export const login = (send) => {
       withCredentials: true,
     })
     .then((res) => {
-      return res.data;
+      console.log(res);
+      return res;
     })
     .catch((err) => {
-      console.log(err);
+      console.log(err.response.data);
+      return err.response.data;
     });
 };
 export const signup = (send) => {

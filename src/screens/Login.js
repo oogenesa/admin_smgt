@@ -16,6 +16,7 @@ import { Redirect } from "react-router-dom";
 import { login } from "../helpers/apiFunction";
 import logo from "../assets/img/logo.png";
 import Cookies from "universal-cookie";
+import Modals from "../component/Modals";
 const cookies = new Cookies();
 export default class Login extends Component {
   constructor(props) {
@@ -27,6 +28,8 @@ export default class Login extends Component {
       error: false,
       redirectdash: false,
       redirectregister: false,
+      openModal: false,
+      messageApi: "",
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -39,7 +42,6 @@ export default class Login extends Component {
     }
   }
   async onSubmit(e) {
-    console.log("test");
     e.preventDefault();
 
     // const { email, password } = this.state;
@@ -56,12 +58,12 @@ export default class Login extends Component {
     };
 
     login(user).then((res) => {
-      if (res === undefined) {
-        console.log("tes");
-      } else {
-        this.setState({ redirectdash: true });
-      }
-      console.log(res);
+      // if (res.errors.code) === undefined) {
+      //   this.setState({ openModal: true });
+      // } else {
+      //   this.setState({ redirectdash: true });
+      // }
+      console.log(res.status);
       // history.push('/');
       // store.set('loggedIn', true);
     });
@@ -179,6 +181,7 @@ export default class Login extends Component {
             <Button content="Register" onClick={this.handleClickRegister} />
           </div>
         </div>
+        <Modals message="User is not activated" modal1={this.state.openModal} />
       </div>
     );
   }

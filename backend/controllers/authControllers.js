@@ -5,24 +5,27 @@ const Menu = require("../models/Menu");
 const { requireAuth, checkUser } = require("../middleware/authMiddleware");
 //handle errors
 const handleErrors = (err) => {
-  console.log(err.message, err.code);
-  let errors = { username: "", password: "" };
+  let errors = { code: 400, message: "" };
 
   //incorect email
   if (err.message === "incorrect username") {
-    errors.username = "that username is not registered";
+    errors.code = 451;
+    errors.message = "that username is not registered";
   }
   //incorrect password
   if (err.message === "incorrect password") {
-    errors.password = "that password is incorrect";
+    errors.code = 452;
+    errors.message = "that password is incorrect";
   }
 
-  if (err.code === 11000) {
-    errors.username = "that username is already registered";
+  if (err.message === "User is not active") {
+    errors.code = 453;
+    errors.message = "User is not active, please contact admin";
     return errors;
   }
-  if (err.message === "User is not active") {
-    errors.username = "User is not active, please contact admin";
+  if (err.code === 11000) {
+    errors.code = err.code;
+    errors.message = "that username is already registered";
     return errors;
   }
 
