@@ -153,11 +153,7 @@ module.exports.asm_edit = async (req, res) => {
 };
 
 module.exports.asm_get_search = async (req, res) => {
-  const {
-    full_name,
-    nick_name
-   
-  } = req.body;
+  const { full_name } = req.body;
   const field = {
     _id: 1,
     full_name: 1,
@@ -172,11 +168,15 @@ module.exports.asm_get_search = async (req, res) => {
   // console.log(auth);
   // if (auth.id !== null) {
   try {
-    await ASM.find({$or :
-      [ {"full_name" :{ $regex: '.*' + full_name + '.*' }},
-      {"nick_name" :{ $regex: '.*' + nick_name + '.*' }}
-      ]
-    }, field).exec(function (err, result) {
+    await ASM.find(
+      {
+        $or: [
+          { full_name: { $regex: ".*" + full_name + ".*" } },
+          { nick_name: { $regex: ".*" + full_name + ".*" } },
+        ],
+      },
+      field
+    ).exec(function (err, result) {
       if (err) throw err;
       res.status(201).json(result);
     });

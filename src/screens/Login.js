@@ -56,8 +56,12 @@ export default class Login extends Component {
     };
 
     login(user).then((res) => {
+      if (res === undefined) {
+        console.log("tes");
+      } else {
+        this.setState({ redirectdash: true });
+      }
       console.log(res);
-      this.setState({ redirectdash: true });
       // history.push('/');
       // store.set('loggedIn', true);
     });

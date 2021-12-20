@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Form,
@@ -17,19 +17,42 @@ const cookies = new Cookies();
 
 const Register = (props) => {
   const [error, setError] = useState(false);
+  const [redirectlogin, setRedirectLogin] = useState(false);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
   // const [size, setSize] = useState("small");
-  const [passwordsame, setPasswordSame] = useState(true);
+  const [passwordsame, setPasswordSame] = useState(false);
+  useEffect(() => {
+    compare();
+  }, [repassword]);
   const disable = false;
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log(password === repassword);
+    if (passwordsame) {
+      console.log("tes");
+      const send = {
+        username,
+        password,
+      };
 
-    // const send = {
-    //   usernaname,
-    // };
+      signup(send).then((res) => {
+        console.log(res);
+        setRedirectLogin(true);
+        // history.push('/');
+        // store.set('loggedIn', true);
+      });
+    }
+  };
+  const compare = () => {
+    if (password === repassword) {
+      setPasswordSame(true);
+    } else {
+      setPasswordSame(false);
+    }
+    console.log(passwordsame);
   };
 
   const handleChangeUsername = (val) => {
@@ -37,19 +60,9 @@ const Register = (props) => {
   };
   const handleChangePassword = (val) => {
     setPassword(val);
-    if (password === repassword) {
-      setPasswordSame(true);
-    } else {
-      setPasswordSame(false);
-    }
   };
   const handleChangeRepassword = (val) => {
     setRepassword(val);
-    if (password === repassword) {
-      setPasswordSame(true);
-    } else {
-      setPasswordSame(false);
-    }
   };
   return (
     <div
@@ -60,6 +73,7 @@ const Register = (props) => {
         justifyContent: "center",
       }}
     >
+      {redirectlogin ? <Redirect push to="/login" /> : null}
       <div
         style={{
           backgroundColor: "greenyellow",

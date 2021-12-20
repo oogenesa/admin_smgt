@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-
+const Menu = require("../models/Menu");
 const { requireAuth, checkUser } = require("../middleware/authMiddleware");
 //handle errors
 const handleErrors = (err) => {
@@ -92,4 +92,17 @@ module.exports.logout_get = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.cookie("role", "", { maxAge: 1 });
   res.redirect("/");
+};
+
+module.exports.menu_get = async (req, res) => {
+  // const { num, name, logo, active } = req.body;
+
+  try {
+    const menu = await Menu.find({ role: { $lte: 1 } });
+
+    res.status(201).json(menu);
+  } catch (err) {
+    const errors = handleErrors(err);
+    res.status(400).json({ errors });
+  }
 };

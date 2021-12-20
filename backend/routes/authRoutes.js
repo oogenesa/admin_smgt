@@ -10,6 +10,7 @@ const gsmController = require("../controllers/gsmControllers");
 // });
 // router.use(requireAuth);
 router.get("/signup", authController.signup_get);
+router.get("/menu", authController.menu_get);
 router.post("/signup", authController.signup_post);
 router.get("/login", authController.login_get);
 router.post("/login", authController.login_post);
