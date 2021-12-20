@@ -19,6 +19,7 @@ router.post("/asm", asmController.asm_post);
 router.get("/asm", asmController.asm_get);
 router.get("/asm/:id", asmController.asm_get_id);
 router.post("/asm_edit/:id", asmController.asm_edit);
+router.get("/asm_search", asmController.asm_get_search);
 
 router.post("/gsm", gsmController.gsm_post);
 router.post("/gsm_edit/:id", gsmController.gsm_edit);

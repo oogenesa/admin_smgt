@@ -11,7 +11,7 @@ export default class MenuASM extends Component {
       class_sm: "all",
       asm_class: [],
       grid: true,
-      search : ""
+      search: "",
     };
   }
   componentDidMount() {
@@ -67,11 +67,19 @@ export default class MenuASM extends Component {
       this.setState({ grid: false });
     }
   };
-  submitSearch = (e) =>{
+  submitSearch = (e) => {
     e.preventDefault();
-    console.log(this.state.search)
-
-  }
+    console.log(this.state.search);
+  };
+  handleSearch = (e) => {
+    this.setState({ search: e });
+    e = e.toLowerCase();
+    if (e !== "") {
+      this.state.asm_class = this.state.asm.filter(
+        (item) => item.full_name.toLowerCase().indexOf(e) >= 0
+      );
+    }
+  };
   render() {
     return (
       <div className="container-fluid">
@@ -107,6 +115,7 @@ export default class MenuASM extends Component {
               <option value="Remaja">Remaja</option>
             </select>
           </div>
+
           <div
             style={{
               marginLeft: 20,
@@ -139,25 +148,42 @@ export default class MenuASM extends Component {
             </label>
           </div>
         </div>
-        <form className="form-inline " onSubmit={this.submitSearch}>
-          <div className="input-group input-group-sm">
-            <input
-              className="form-control form-control-navbar"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-              value={this.state.search}
-              onChange={(e) =>
-                this.setState({ search: e.target.value })
-              }
-            />
-            <div className="input-group-append">
-              <button className="btn btn-navbar" type="submit" >
-                <i className="fas fa-search" />
-              </button>
+        <h5>Pencarian</h5>
+        <div style={{ display: "flex", flex: 1, flexDirection: "row" }}>
+          <div
+            className="row col-md-3"
+            style={{ marginBottom: 10, display: "flex", flexDirection: "row" }}
+          >
+            <div className="form-group">
+              <label>Nama Lengkap</label>
+              <input
+                type="text"
+                className="form-control"
+                value={this.state.search}
+                onChange={(e) => this.handleSearch(e.target.value)}
+              ></input>
             </div>
           </div>
-        </form>
+        </div>
+        {/* <form className="form-inline " onSubmit={this.submitSearch}>
+            <div className="input-group input-group-sm">
+              <input
+                className="form-control form-control-navbar"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                value={this.state.search}
+                onChange={(e) =>
+                  this.setState({ search: e.target.value })
+                }
+              />
+              <div className="input-group-append">
+                <button className="btn btn-navbar" type="submit" >
+                  <i className="fas fa-search" />
+                </button>
+              </div>
+            </div>
+          </form> */}
         {this.state.grid ? (
           <GridASM
             asm_class={this.state.asm_class}

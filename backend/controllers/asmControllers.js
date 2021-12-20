@@ -151,3 +151,40 @@ module.exports.asm_edit = async (req, res) => {
     res.status(400).json({ errors });
   }
 };
+
+module.exports.asm_get_search = async (req, res) => {
+  const {
+    full_name,
+    nick_name
+   
+  } = req.body;
+  const field = {
+    _id: 1,
+    full_name: 1,
+    nick_name: 1,
+    birth_date: 1,
+    class_sm: 1,
+    image: 1,
+  };
+
+  //const auth = await verifyToken(req.cookies.jwt);
+  //const token = req.cookies.jwt;
+  // console.log(auth);
+  // if (auth.id !== null) {
+  try {
+    await ASM.find({$or :
+      [ {"full_name" :{ $regex: '.*' + full_name + '.*' }},
+      {"nick_name" :{ $regex: '.*' + nick_name + '.*' }}
+      ]
+    }, field).exec(function (err, result) {
+      if (err) throw err;
+      res.status(201).json(result);
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ err });
+  }
+  // } else {
+  //   res.status(401).json({ token: "fail token" });
+  // }
+};
