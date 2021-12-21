@@ -4,6 +4,7 @@ const Modals = (props) => {
   const [isOpenModal1, setIsOpenModal1] = useState({ ...props.modal1 });
   const handleOnClose = () => {
     setIsOpenModal1(false);
+    props.handleCloseModal();
   };
   useEffect(() => {
     setIsOpenModal1(props.modal1);

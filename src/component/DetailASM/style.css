@@ -1,0 +1,49 @@
+.flexbox-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  width: 500;
+  align-items: center;
+  flex: 4;
+  justify-content: center;
+
+  left: 30px;
+}
+.head > div {
+  flex: 1 1 auto;
+
+  text-align: center;
+
+  margin: 1px; /* and that, will result in a 10px gap */
+}
+.profile {
+  display: flex;
+  flex-direction: column;
+  width: 500;
+  align-items: center;
+
+  margin-left: 20;
+  left: 30px;
+  margin-left: 10px;
+}
+.name {
+  margin-bottom: -10px;
+  align-self: stretch;
+}
+.picture {
+  display: flex;
+}
+img {
+  height: 100;
+  width: 100;
+}
+.detail {
+  margin: 10px;
+
+  width: 400;
+}

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { get_asm_byId } from "../../helpers/apiFunction";
 import { Image, Transformation } from "cloudinary-react";
 import { Table, Column } from "react-rainbow-components";
+import "./style.css";
 export default class DetailASM extends Component {
   constructor(props) {
     super(props);
@@ -99,87 +100,90 @@ export default class DetailASM extends Component {
 
     return (
       <div>
-        <div>
-          <section className="content-header">
-            <div className="container-fluid">
-              <div className="row mb-2 col-sm-6">
-                <h1>Data ASM</h1>
-              </div>
+        <section className="content-header">
+          <div className="container-fluid">
+            <div className="row mb-2 col-sm-6">
+              <h1>Data ASM</h1>
             </div>
-          </section>
-          <section className="content">
-            <div className="row">
-              <div className="col-md-3">
-                <div style={styles.head}>
-                  <Image
-                    cloudName="alryntocloud"
-                    upload_preset="smgtdepok"
-                    publicId={this.state.asm.image}
-                  >
-                    <Transformation
-                      width="250"
-                      height="250"
-                      gravity="face"
-                      crop="fill"
-                      radius="max"
-                    />
-                  </Image>
-                </div>
-                <div style={styles.name}>
+          </div>
+        </section>
+        <div className="flexbox-container">
+          <div className="picture">
+            <div className="profile">
+              <Image
+                cloudName="alryntocloud"
+                upload_preset="smgtdepok"
+                publicId={this.state.asm.image}
+              >
+                <Transformation
+                  radius="20"
+                  aspectRatio="1.0"
+                  width="200"
+                  height="200"
+                  crop="fill"
+                  gravity="face"
+                  effect="trim"
+                />
+              </Image>
+              <div className="head">
+                <div className="name">
                   <h3>{upper(this.state.asm.full_name)}</h3>
+                </div>
+                <div className="name">
                   <h5>Panggil aku {upper(this.state.asm.nick_name)}</h5>
+                </div>
+                <div className="name">
                   <h4>Kelas {this.state.asm.class_sm}</h4>
+                </div>
+                <div className="name">
                   <h4>{formatDate()}</h4>
                 </div>
               </div>
-              <div className="col-md-6">
-                <h3>Orang Tua</h3>
-                <div className="row">
-                  <div className="col-md-3 ">
-                    <p>Ibu</p>
-                  </div>
-                  <div className="col-md-8">
-                    : {upper(this.state.asm.mother_name)} (
-                    {this.state.asm.mother_cp})
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-3">
-                    <p>Ayah</p>
-                  </div>
-                  <div className="col-md-8">
-                    : {upper(this.state.asm.father_name)} (
-                    {this.state.asm.father_cp})
-                  </div>
-                </div>
-                <h3>Lain-lain</h3>
-                <div className="row">
-                  <div className="col-md-3 ">
-                    <p>Sekolah </p>
-                  </div>
-                  <div className="col-md-8">
-                    : {upper(this.state.asm.school)} (Kelas{" "}
-                    {this.state.asm.school_grade})
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-3">
-                    <p>Alamat</p>
-                  </div>
-                  <div className="col-md-8">
-                    : {upper(this.state.asm.address)}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-3">
-                    <p>Hobby</p>
-                  </div>
-                  <div className="col-md-8">: {this.state.asm.hobby}</div>
-                </div>
-              </div>
-              <div className="col-md-6"></div>
             </div>
-          </section>
+          </div>
+          <div className="detail">
+            <h3>Orang Tua</h3>
+            <div className="row">
+              <div className="col-md-3 ">
+                <p>Ibu</p>
+              </div>
+              <div className="col-md-8">
+                : {upper(this.state.asm.mother_name)} (
+                {this.state.asm.mother_cp})
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-3">
+                <p>Ayah</p>
+              </div>
+              <div className="col-md-8">
+                : {upper(this.state.asm.father_name)} (
+                {this.state.asm.father_cp})
+              </div>
+            </div>
+            <h3>Lain-lain</h3>
+            <div className="row">
+              <div className="col-md-3 ">
+                <p>Sekolah </p>
+              </div>
+              <div className="col-md-8">
+                : {upper(this.state.asm.school)} (Kelas{" "}
+                {this.state.asm.school_grade})
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-3">
+                <p>Alamat</p>
+              </div>
+              <div className="col-md-8">: {upper(this.state.asm.address)}</div>
+            </div>
+            <div className="row">
+              <div className="col-md-3">
+                <p>Hobby</p>
+              </div>
+              <div className="col-md-8">: {this.state.asm.hobby}</div>
+            </div>
+          </div>
         </div>
         <div>
           <div className="col-md-6">

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-
+import { get_menu } from "../helpers/apiFunction";
 export default class MenuItem extends Component {
   constructor(props) {
     super(props);
-    this.state = { menuActive: props.menuActive, active: "active" };
+    this.state = { menuActive: props.menuActive, active: "active", menu: [] };
   }
 
   handleClick = (id, e) => {
@@ -13,45 +13,17 @@ export default class MenuItem extends Component {
   //   UNSAFE_componentWillMount() {
   //     //console.log(this.state.menuActive)
   //   }
+  componentDidMount() {
+    get_menu().then((res) => {
+      this.setState({ menu: res });
+    });
+  }
 
   render() {
-    const dashb = [
-      {
-        num: 0,
-        name: "Dashboard",
-        logo: "nav-icon fas fa-tv",
-        status: "active",
-      },
-      {
-        num: 1,
-        name: "ASM",
-        logo: "nav-icon fas fa-child",
-        status: "active",
-      },
-      {
-        num: 2,
-        name: "GSM",
-        logo: "nav-icon fas fa-user-tie",
-        status: "active",
-      },
-      {
-        num: 3,
-        name: "Absensi",
-        logo: "nav-icon fas fa-clipboard-list",
-        status: "active",
-      },
-      {
-        num: 4,
-        name: "Pengurus",
-        logo: "nav-icon fas fa-people-carry",
-        status: "active",
-      },
-    ];
-
     return (
       <div>
         <li className={"nav-item has-treeview"}>
-          {dashb.map((dash) => (
+          {this.state.menu.map((dash) => (
             <div key={dash.num}>
               <ul
                 className="nav nav-pills nav-sidebar flex-column"

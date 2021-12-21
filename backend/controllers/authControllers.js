@@ -99,13 +99,22 @@ module.exports.logout_get = (req, res) => {
 
 module.exports.menu_get = async (req, res) => {
   // const { num, name, logo, active } = req.body;
+  let tes = "";
+  verifyToken(req.cookies.jwt).then((payload) => {
+    try {
+      const user = User.find({ _id: payload.id }).exec((err, result) => {
+        if (err) throw err;
 
-  try {
-    const menu = await Menu.find({ role: { $lte: 1 } });
+        tes = result[0].role;
 
-    res.status(201).json(menu);
-  } catch (err) {
-    const errors = handleErrors(err);
-    res.status(400).json({ errors });
-  }
+        const menu = Menu.find({ role: { $lte: tes } }).exec((err, results) => {
+          if (err) throw err;
+          res.status(201).json(results);
+        });
+      });
+    } catch (err) {
+      const errors = handleErrors(err);
+      res.status(400).json({ errors });
+    }
+  });
 };

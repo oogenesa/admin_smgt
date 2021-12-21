@@ -33,7 +33,10 @@ const TableASM = (props) => {
         >
           <a
             className="btn btn-info"
-            onClick={() => handleClickDetail({ value })}
+            onClick={
+              () => handleClickDetail({ value })
+              //console.log(value)
+            }
           >
             <i className="fas fa-eye"></i>
           </a>
@@ -79,10 +82,10 @@ const TableASM = (props) => {
     return splitStr.join(" ");
   };
   const handleClickEdit = (e) => {
-    props.handleClickEdit(e);
+    props.handleClickEdit(e.value);
   };
   const handleClickDetail = (e) => {
-    props.handleClickDetail(e);
+    props.handleClickDetail(e.value);
   };
   const data = useMemo(() => props.asm, []);
   const columns = useMemo(() => column, []);

@@ -7,6 +7,7 @@ import {
   Button,
   Card,
   Image,
+  CommentActions,
 } from "semantic-ui-react";
 import { Helmet } from "react-helmet";
 import isLoggedIn from "../helpers/is_login_in";
@@ -58,12 +59,17 @@ export default class Login extends Component {
     };
 
     login(user).then((res) => {
-      // if (res.errors.code) === undefined) {
-      //   this.setState({ openModal: true });
+      if (res.status === 200) {
+        this.setState({ redirectdash: true });
+      } else {
+        this.setState({ messageApi: res.errors.message });
+        this.setState({ openModal: true });
+      }
+      // if (res.errors === undefined) {
       // } else {
-      //   this.setState({ redirectdash: true });
+
       // }
-      console.log(res.status);
+      // console.log(res.errors.code);
       // history.push('/');
       // store.set('loggedIn', true);
     });
@@ -77,6 +83,9 @@ export default class Login extends Component {
   };
   testfunct = () => {
     return <Redirect push to="/" />;
+  };
+  handleCloseModal = () => {
+    this.setState({ openModal: false });
   };
   render() {
     const { error } = this.state;
@@ -181,7 +190,11 @@ export default class Login extends Component {
             <Button content="Register" onClick={this.handleClickRegister} />
           </div>
         </div>
-        <Modals message="User is not activated" modal1={this.state.openModal} />
+        <Modals
+          message={this.state.messageApi}
+          modal1={this.state.openModal}
+          handleCloseModal={this.handleCloseModal}
+        />
       </div>
     );
   }

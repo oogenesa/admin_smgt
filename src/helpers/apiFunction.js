@@ -13,11 +13,9 @@ export const login = (send) => {
       withCredentials: true,
     })
     .then((res) => {
-      console.log(res);
       return res;
     })
     .catch((err) => {
-      console.log(err.response.data);
       return err.response.data;
     });
 };
@@ -74,6 +72,20 @@ export const edit_asm = (id, send) => {
   let url = API_URL + "asm_edit/" + id;
   return axios
     .post(url, send)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const get_menu = () => {
+  let url = API_URL + "menu";
+  return axios
+    .get(url, {
+      withCredentials: true,
+    })
     .then((response) => {
       return response.data;
     })

@@ -74,11 +74,10 @@ export default class MenuASM extends Component {
   handleSearch = (e) => {
     this.setState({ search: e });
     e = e.toLowerCase();
-    if (e !== "") {
-      this.state.asm_class = this.state.asm.filter(
-        (item) => item.full_name.toLowerCase().indexOf(e) >= 0
-      );
-    }
+
+    this.state.asm_class = this.state.asm_class.filter(
+      (item) => item.full_name.toLowerCase().indexOf(e) >= 0
+    );
   };
   render() {
     return (
@@ -165,25 +164,7 @@ export default class MenuASM extends Component {
             </div>
           </div>
         </div>
-        {/* <form className="form-inline " onSubmit={this.submitSearch}>
-            <div className="input-group input-group-sm">
-              <input
-                className="form-control form-control-navbar"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-                value={this.state.search}
-                onChange={(e) =>
-                  this.setState({ search: e.target.value })
-                }
-              />
-              <div className="input-group-append">
-                <button className="btn btn-navbar" type="submit" >
-                  <i className="fas fa-search" />
-                </button>
-              </div>
-            </div>
-          </form> */}
+
         {this.state.grid ? (
           <GridASM
             asm_class={this.state.asm_class}
