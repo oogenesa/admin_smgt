@@ -93,3 +93,48 @@ export const get_menu = () => {
       console.log(err);
     });
 };
+export const get_gsm_byId = (send) => {
+  let url = API_URL + "gsm/" + send.id;
+  return axios
+    .get(url)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+export const post_gsm = (send) => {
+  let url = API_URL + "gsm";
+  return axios
+    .post(url, send)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const edit_gsm = (id, send) => {
+  let url = API_URL + "gsm_edit/" + id;
+  return axios
+    .post(url, send)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+export const get_all_gsm = () => {
+  let url = API_URL + "gsm";
+  return axios
+    .get(url)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};

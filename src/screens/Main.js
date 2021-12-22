@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import FormGSM from "../component/FormGSM";
 import FormASM from "../component/FormASM";
 import MenuASM from "../component/MenuASM";
+import MenuGSM from "../component/MenuGSM";
 import DetailASM from "../component/DetailASM";
 import Absensi from "../component/Absensi";
 export default class Main extends Component {
@@ -71,11 +72,46 @@ export default class Main extends Component {
           }
 
         case 2:
-          return (
-            <div>
-              <FormGSM />
-            </div>
-          );
+          switch (asmMenu) {
+            case 1:
+              return (
+                <div>
+                  <MenuGSM asmMenu={asmMenu} onChangeGSM={(e) => change(e)} />
+                </div>
+              );
+              break;
+            case 2:
+              return (
+                <div>
+                  <FormGSM isEdit={false} onChangeGSM={(e) => change(e)} />
+                </div>
+              );
+              break;
+            case 3:
+              return (
+                <div>
+                  <DetailASM idasm={idasm} onChangeGSM={(e) => change(e)} />
+                </div>
+              );
+              break;
+            case 4:
+              return (
+                <div>
+                  <FormGSM
+                    isEdit={true}
+                    idasm={idasm}
+                    onChangeGSM={(e) => change(e)}
+                  />
+                </div>
+              );
+            default:
+              return (
+                <div>
+                  <MenuGSM asmMenu={asmMenu} onChangeGSM={(e) => change(e)} />
+                </div>
+              );
+              break;
+          }
           break;
         case 3:
           return (

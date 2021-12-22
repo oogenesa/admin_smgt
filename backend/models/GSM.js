@@ -23,7 +23,11 @@ const GSMSchema = new mongoose.Schema({
   },
   work_place: {
     type: String,
-    required: [true, "Silakan Masukkan Tempat Kerj"],
+    required: [true, "Silakan Masukkan Tempat Kerja"],
+  },
+  work_status: {
+    type: String,
+    required: [true, "Silakan Masukkan Status Bekerja/ Sekolah"],
   },
   address: {
     type: String,
@@ -34,6 +38,10 @@ const GSMSchema = new mongoose.Schema({
     required: [true, "Silakan Masukkan Minat"],
   },
   contact_number: {
+    type: String,
+    required: [true, "Silakan Masukkan kontak"],
+  },
+  emergency_number: {
     type: String,
     required: [true, "Silakan Masukkan kontak"],
   },
@@ -64,7 +72,9 @@ const GSMSchema = new mongoose.Schema({
   cajon: {
     type: Boolean,
   },
-
+  officer: {
+    type: Boolean,
+  },
   instagram: {
     type: String,
   },
@@ -72,6 +82,9 @@ const GSMSchema = new mongoose.Schema({
     type: String,
   },
   facebook: {
+    type: String,
+  },
+  line: {
     type: String,
   },
 
