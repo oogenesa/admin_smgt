@@ -164,6 +164,7 @@ module.exports.gsm_get = async (req, res) => {
     keyboard: 1,
     cajon: 1,
     image: 1,
+    officer: 1,
   };
   //console.log(req.cookies.jwt);
   //const auth = await verifyToken(req.cookies.jwt);

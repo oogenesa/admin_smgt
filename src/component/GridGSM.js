@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect } from "react";
 import { Image, Transformation } from "cloudinary-react";
 
 const GridGSM = (props) => {
@@ -18,6 +18,21 @@ const GridGSM = (props) => {
           <div key={guru._id} className="col-md-3">
             <div className="card card-primary card-outline">
               <div className="card-body box-profile">
+                {guru.officer ? (
+                  <div
+                    style={{
+                      position: "absolute",
+                      right: "15px",
+                    }}
+                  >
+                    <Icon
+                      disabled={false}
+                      title="Pengurus"
+                      icons="fas fa-star"
+                    />
+                  </div>
+                ) : null}
+
                 <div className="text-center">
                   <Image
                     cloudName="alryntocloud"
@@ -66,6 +81,45 @@ const GridGSM = (props) => {
                     </a>
                   </div>
                 </div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginTop: "5px",
+                  }}
+                >
+                  <Icon
+                    disabled={!guru.sermon}
+                    title="Pengajar"
+                    icons="fas fa-user-tie"
+                  />
+                  <Icon
+                    disabled={!guru.worship_leader}
+                    title="Liturgis"
+                    icons="fad fa-user-music"
+                  />
+                  <Icon
+                    disabled={!guru.assistant}
+                    title="Asisten Mengajar"
+                    icons="fad fa-user-plus"
+                  />
+                  <Icon
+                    disabled={!guru.guitar}
+                    title="Gitar"
+                    icons="fas fa-guitar"
+                  />
+                  <Icon
+                    disabled={!guru.keyboard}
+                    title="Keyboard"
+                    icons="fad fa-piano"
+                  />
+                  <Icon
+                    disabled={!guru.cajon}
+                    title="Cajon"
+                    icons="fas fa-drum active"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -75,4 +129,24 @@ const GridGSM = (props) => {
   );
 };
 
+const Icon = (props) => {
+  let colors = "#ff4db2";
+  if (props.disabled) {
+    colors = "Grey";
+  }
+  return (
+    <div>
+      <span
+        title={props.title}
+        style={{
+          fontsize: "3em",
+          color: colors,
+          marginInline: "3px",
+        }}
+      >
+        <i className={props.icons}></i>
+      </span>
+    </div>
+  );
+};
 export default GridGSM;

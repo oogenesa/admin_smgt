@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Image, Transformation } from "cloudinary-react";
 
 const GridASM = (props) => {
@@ -17,7 +17,7 @@ const GridASM = (props) => {
         {props.asm_class.map((anak) => (
           <div key={anak._id} className="col-md-3">
             <div className="card card-primary card-outline">
-              <div className="card-body box-profile">
+              <div className="card-body box-profile ">
                 <div className="text-center">
                   <Image
                     cloudName="alryntocloud"
