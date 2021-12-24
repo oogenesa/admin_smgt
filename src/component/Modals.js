@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-rainbow-components";
 const Modals = (props) => {
   const [isOpenModal1, setIsOpenModal1] = useState({ ...props.modal1 });
+  console.log(isOpenModal1);
   const handleOnClose = () => {
     setIsOpenModal1(false);
     props.handleCloseModal();

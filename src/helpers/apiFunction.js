@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import Cookies from "universal-cookie";
-const API_URL = "http://localhost:5000/";
+const API_URL = "http://192.168.1.205:5000/";
 
 const cookies = new Cookies();
 const logedin = cookies.get("jwt");
@@ -11,11 +11,14 @@ export const login = (send) => {
   return axios
     .post(url, send, {
       withCredentials: true,
+      headers: { crossDomain: true, "Content-Type": "application/json" },
     })
     .then((res) => {
+      console.log(res);
       return res;
     })
     .catch((err) => {
+      console.log(err.response);
       return err.response.data;
     });
 };
@@ -35,7 +38,9 @@ export const signup = (send) => {
 export const get_all_asm = () => {
   let url = API_URL + "asm";
   return axios
-    .get(url)
+    .get(url, {
+      withCredentials: true,
+    })
     .then((response) => {
       return response.data;
     })

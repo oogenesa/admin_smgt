@@ -83,25 +83,32 @@ module.exports.login_post = async (req, res) => {
     const user = await User.login(username, password);
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: false, maxAge: maxAge * 1000 });
-    res.cookie("role", user.role, { httpOnly: false, maxAge: maxAge * 1000 });
+    res.cookie("role", user.role, {
+      httpOnly: false,
+      maxAge: maxAge * 1000,
+    });
+
+    res.cookie("username", "Flavio", { domain: "http://192.168.1.205:3000" });
     res.status(200).json({ user: user._id, role: user.role });
   } catch (err) {
     const errors = handleErrors(err);
-    res.status(400).json({ errors });
+    res.status(202).json({ errors });
   }
 };
 
 module.exports.logout_get = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.cookie("role", "", { maxAge: 1 });
+  res.cookie("username", "", { maxAge: 1 });
   res.redirect("/");
 };
 
 module.exports.menu_get = async (req, res) => {
   // const { num, name, logo, active } = req.body;
   let tes = "";
-  verifyToken(req.cookies.jwt).then((payload) => {
-    try {
+  console.log(req.cookies.jwt);
+  try {
+    verifyToken(req.cookies.jwt).then((payload) => {
       const user = User.find({ _id: payload.id }).exec((err, result) => {
         if (err) throw err;
 
@@ -112,9 +119,9 @@ module.exports.menu_get = async (req, res) => {
           res.status(201).json(results);
         });
       });
-    } catch (err) {
-      const errors = handleErrors(err);
-      res.status(400).json({ errors });
-    }
-  });
+    });
+  } catch (err) {
+    const errors = handleErrors(err);
+    res.status(400).json({ errors });
+  }
 };

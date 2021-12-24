@@ -59,10 +59,11 @@ export default class Login extends Component {
     };
 
     login(user).then((res) => {
+      console.log(res);
       if (res.status === 200) {
         this.setState({ redirectdash: true });
       } else {
-        this.setState({ messageApi: res.errors.message });
+        this.setState({ messageApi: res.data.errors.message });
         this.setState({ openModal: true });
       }
       // if (res.errors === undefined) {
@@ -106,7 +107,7 @@ export default class Login extends Component {
           justifyContent: "center",
         }}
       >
-        {this.state.redirectdash ? <Redirect push to="/" /> : null}
+        {this.state.redirectdash ? <Redirect push to="/dashboard" /> : null}
         {this.state.redirectregister ? <Redirect push to="/register" /> : null}
         {/* <div
           style={{

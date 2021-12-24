@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { get_gsm_byId } from "../helpers/apiFunction";
 import { Image, Transformation } from "cloudinary-react";
+import instagram from "../assets/logo/instagram.png";
+import facebook from "../assets/logo/facebook.png";
+import twitter from "../assets/logo/twitter.png";
+import line from "../assets/logo/line.png";
 import "./style.css";
 const DetailGSM = (props) => {
   const [gsm, setGSM] = useState({});
@@ -74,7 +78,7 @@ const DetailGSM = (props) => {
       <div className="hero-area">
         <div className="container">
           <div className="row">
-            <div className="col-lg-5 col-12">
+            <div className="row">
               <div className="detailgsm">
                 <div className="about-me">
                   <h3 className="right-title">Tentang Saya</h3>
@@ -97,7 +101,7 @@ const DetailGSM = (props) => {
                           href="#t-tab2"
                           role="tab"
                         >
-                          My Skills
+                          Detail
                         </a>
                       </li>
                       <li className="nav-item">
@@ -107,7 +111,7 @@ const DetailGSM = (props) => {
                           href="#t-tab3"
                           role="tab"
                         >
-                          Contact Details
+                          Presensi
                         </a>
                       </li>
                     </ul>
@@ -167,84 +171,78 @@ const DetailGSM = (props) => {
                     <div className="tab-pane fade" id="t-tab2" role="tabpanel">
                       <div className="row">
                         <div className="col-12">
-                          <div className="tab-skill">
-                            <div className="skill-main doctor-details-biography">
-                              {/* Single Skill */}
-                              <div className="single-skill">
-                                <div className="skill-title">
-                                  <h4>Web Design</h4>
-                                </div>
-                                <div className="progress">
-                                  <div
-                                    className="progress-bar"
-                                    role="progressbar"
-                                    aria-valuenow={70}
-                                    aria-valuemin={0}
-                                    aria-valuemax={100}
-                                    style={{ width: "70%" }}
-                                  >
-                                    <span>70%</span>
-                                  </div>
-                                </div>
-                              </div>
-                              {/* End Single Skill */}
-                              {/* Single Skill */}
-                              <div className="single-skill">
-                                <div className="skill-title">
-                                  <h4>Graphics Design</h4>
-                                </div>
-                                <div className="progress">
-                                  <div
-                                    className="progress-bar"
-                                    role="progressbar"
-                                    aria-valuenow={70}
-                                    aria-valuemin={0}
-                                    aria-valuemax={100}
-                                    style={{ width: "80%" }}
-                                  >
-                                    <span>80%</span>
-                                  </div>
+                          <div className="tab-about">
+                            {/* <p>
+                              It is a long established fact that a reader will
+                              be distracted by the readable content of a page
+                              when looking at its layout.
+                            </p> */}
+                            <div className="about-me-info">
+                              <div className="row">
+                                <div className="col-lg-12 col-xs-12">
+                                  <ul className="info-inner">
+                                    <li>
+                                      <span>Kontak Darurat : </span>
+                                      {gsm.emergency_contact}
+                                    </li>
+                                    <li>
+                                      <span>Tempat {gsm.work_status} : </span>
+                                      {gsm.work_place}
+                                    </li>
+                                  </ul>
                                 </div>
                               </div>
-                              {/* End Single Skill */}
-                              {/* Single Skill */}
-                              <div className="single-skill">
-                                <div className="skill-title">
-                                  <h4>Ui/Ux Design</h4>
+                              <div className="row">
+                                <div className="col-lg-6 col-xs-6">
+                                  <ul className="info-inner">
+                                    <li className="detailfont">
+                                      <a
+                                        href={
+                                          "http://instagram.com/" +
+                                          gsm.instagram
+                                        }
+                                        target="_blank"
+                                      >
+                                        <img
+                                          className="logomedsos"
+                                          src={instagram}
+                                        />
+                                      </a>
+                                      {gsm.instagram}
+                                    </li>
+                                    <li className="detailfont">
+                                      <img
+                                        className="logomedsos"
+                                        src={twitter}
+                                      />
+
+                                      {gsm.twitter}
+                                    </li>
+
+                                    <li>
+                                      <span>No HP: </span>
+                                      {gsm.contact_number}
+                                    </li>
+                                  </ul>
                                 </div>
-                                <div className="progress">
-                                  <div
-                                    className="progress-bar"
-                                    role="progressbar"
-                                    aria-valuenow={70}
-                                    aria-valuemin={0}
-                                    aria-valuemax={100}
-                                    style={{ width: "90%" }}
-                                  >
-                                    <span>90%</span>
-                                  </div>
+                                <div className="col-lg-6 col-xs-6">
+                                  <ul className="info-inner">
+                                    <li className="detailfont">
+                                      <img
+                                        className="logomedsos"
+                                        src={facebook}
+                                      />
+
+                                      {gsm.facebook}
+                                    </li>
+                                    <li className="detailfont">
+                                      <img className="logomedsos" src={line} />
+
+                                      {gsm.line}
+                                    </li>
+                                  </ul>
                                 </div>
                               </div>
-                              {/* End Single Skill */}
-                              {/* Single Skill */}
-                              <div className="single-skill">
-                                <div className="skill-title">
-                                  <h4>Search Engine Optimization (SEO)</h4>
-                                </div>
-                                <div className="progress">
-                                  <div
-                                    className="progress-bar"
-                                    role="progressbar"
-                                    aria-valuenow={70}
-                                    aria-valuemin={0}
-                                    aria-valuemax={100}
-                                    style={{ width: "85%" }}
-                                  >
-                                    <span>85%</span>
-                                  </div>
-                                </div>
-                              </div>
-                              {/* End Single Skill */}
                             </div>
                           </div>
                         </div>
@@ -301,7 +299,7 @@ const DetailGSM = (props) => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-7 col-12">
+            <div className="row">
               <div
                 className="hero-image wow fadeInRight"
                 data-wow-delay=".5s"
@@ -316,14 +314,7 @@ const DetailGSM = (props) => {
                   upload_preset="smgtdepok"
                   publicId={gsm.image}
                 >
-                  <Transformation
-                    aspectRatio="2.0"
-                    width="330"
-                    height="330"
-                    crop="fill"
-                    radius="max"
-                    gravity="face"
-                  />
+                  <Transformation aspectRatio="2.0" crop="fill" />
                 </Image>
                 <div id="shadow"></div>
               </div>
