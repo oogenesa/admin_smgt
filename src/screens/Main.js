@@ -6,6 +6,7 @@ import MenuGSM from "../component/MenuGSM";
 import DetailASM from "../component/DetailASM";
 import DetailGSM from "../component/DetailGSM";
 import Absensi from "../component/Absensi";
+import AddPresensi from "../component/AddPresensi";
 export default class Main extends Component {
   constructor(props) {
     super(props);
@@ -136,7 +137,7 @@ export default class Main extends Component {
         case 3:
           return (
             <div>
-              <Absensi />
+              <AddPresensi />
             </div>
           );
           break;
