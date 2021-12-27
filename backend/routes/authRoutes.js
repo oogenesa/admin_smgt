@@ -2,6 +2,7 @@ const router = require("express").Router();
 const authController = require("../controllers/authControllers");
 const asmController = require("../controllers/asmControllers");
 const gsmController = require("../controllers/gsmControllers");
+const presenceController = require("../controllers/presenceControllers");
 
 // router.use(function (req, res, next) {
 //   const token = req.cookies.jwt;
@@ -26,4 +27,8 @@ router.post("/gsm", gsmController.gsm_post);
 router.post("/gsm_edit/:id", gsmController.gsm_edit);
 router.get("/gsm", gsmController.gsm_get);
 router.get("/gsm/:id", gsmController.gsm_get_id);
+
+router.post("/asm_presence", presenceController.asm_presence_post);
+router.post("/gsm_presence", presenceController.gsm_presence_post);
+
 module.exports = router;
