@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useTable, usePagination } from "react-table";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
-
+import { get_asm_byClass, post_absensi_asm } from "../helpers/apiFunction";
 const AddPresensi = (props) => {
   const SwitchCell = ({
     value: initialValue,
@@ -18,16 +18,14 @@ const AddPresensi = (props) => {
       setValue(e);
       updateMyData(index, id, e);
       if (e) {
-        updateMyData(index, "desc", "");
+        updateMyData(index, "description", "");
       } else {
-        updateMyData(index, "desc", "Tanpa Keterangan");
+        updateMyData(index, "description", "Tanpa Keterangan");
       }
     };
 
     // We'll only update the external data when the input is blurred
-    const onBlur = (e) => {
-      console.log(index, id, e);
-    };
+    const onBlur = (e) => {};
 
     // If the initialValue is changed external, sync it up with our state
     useEffect(() => {
@@ -103,11 +101,11 @@ const AddPresensi = (props) => {
   const columns = [
     {
       Header: "Name",
-      accessor: "name",
+      accessor: "full_name",
     },
     {
       Header: "Class",
-      accessor: "class",
+      accessor: "class_sm",
     },
     {
       Header: "Kehadiran",
@@ -115,8 +113,8 @@ const AddPresensi = (props) => {
       Cell: SwitchCell,
     },
     {
-      Header: "Desc",
-      accessor: "desc",
+      Header: "Keterangan",
+      accessor: "description",
       Cell: DropdownCell,
     },
   ];
@@ -127,26 +125,28 @@ const AddPresensi = (props) => {
       name: "tes",
       class: "balita",
       status: true,
-      desc: "",
+      description: "",
     },
     {
       id: 2,
       name: "tes2",
       class: "balita",
       status: true,
-      desc: "",
+      description: "",
     },
     {
       id: 3,
       name: "tes3",
       class: "balita",
       status: true,
-      desc: "",
+      description: "",
     },
   ]);
   const [originalData] = useState(data);
   const [skipPageReset, setSkipPageReset] = useState(false);
-
+  const [class_sm, setClassSM] = useState("Balita");
+  const [event, setEvent] = useState("Ibadah Minggu");
+  const [dateevent, setDateEvent] = useState(new Date());
   // We need to keep the table from resetting the pageIndex when we
   // Update data. So we can keep track of that flag with a ref.
 
@@ -154,10 +154,21 @@ const AddPresensi = (props) => {
   // the rowIndex, columnId and new value to update the
   // original data
 
-  // useEffect(() => {
-  //   // setSkipPageReset(false)
-  //   // console.log(data);
-  // }, [data]);
+  useEffect(() => {
+    const send = { id: class_sm };
+
+    get_asm_byClass(send).then((res) => {
+      res.forEach(function (prop) {
+        prop.id_asm = prop._id;
+        prop.presence_date = dateevent;
+        prop.status = true;
+        prop.description = "";
+        prop.event = event;
+        delete prop._id;
+      });
+      setData(res);
+    });
+  }, [class_sm]);
 
   const updateMyData = (rowIndex, columnId, value) => {
     // We also turn on the flag to not reset the page
@@ -236,16 +247,42 @@ const AddPresensi = (props) => {
       </>
     );
   };
+  const sendAbsensi = () => {
+    data.forEach(function (prop) {
+      delete prop.full_name;
+      delete prop.nick_name;
+      delete prop.image;
 
+      post_absensi_asm(prop).then((res) => {
+        console.log(res);
+      });
+      // console.log(prop);
+    });
+  };
   return (
     <div>
+      <div
+        className="row col-md-3"
+        style={{ marginBottom: 10, display: "flex", flexDirection: "row" }}
+      >
+        <select
+          className="form-control"
+          value={class_sm}
+          onChange={(e) => setClassSM(e.target.value)}
+        >
+          <option value="Balita">Balita</option>
+          <option value="Kecil">Kecil</option>
+          <option value="Besar">Besar</option>
+          <option value="Remaja">Remaja</option>
+        </select>
+      </div>
       <Table
         columns={columns}
         data={data}
         updateMyData={updateMyData}
         skipPageReset={skipPageReset}
       />
-      <button onClick={() => console.log(data)}>tes</button>
+      <button onClick={() => sendAbsensi()}>tes</button>
     </div>
   );
 };

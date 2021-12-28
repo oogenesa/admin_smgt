@@ -62,7 +62,7 @@ export const get_asm_byId = (send) => {
 };
 
 export const get_asm_byClass = (send) => {
-  let url = API_URL + "asm/" + send.id;
+  let url = API_URL + "asm_class/" + send.id;
   return axios
     .get(url)
     .then((response) => {
@@ -148,6 +148,19 @@ export const get_all_gsm = () => {
   let url = API_URL + "gsm";
   return axios
     .get(url)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const post_absensi_asm = (send) => {
+  let url = API_URL + "asm_presence";
+
+  return axios
+    .post(url, send)
     .then((response) => {
       return response.data;
     })

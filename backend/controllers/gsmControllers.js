@@ -198,3 +198,61 @@ module.exports.gsm_get_id = async (req, res) => {
     res.status(400).json({ err });
   }
 };
+
+module.exports.gsm_get_service = async (req, res) => {
+  var filter = {};
+  switch (req.params.service) {
+    case "sermon":
+      filter = {
+        sermon: true,
+      };
+      break;
+    case "worship_leader":
+      filter = {
+        worship_leader: true,
+      };
+      break;
+    case "assistant":
+      filter = {
+        assistant: true,
+      };
+      break;
+    case "guitar":
+      filter = {
+        guitar: true,
+      };
+      break;
+    case "keyboard":
+      filter = {
+        keyboard: true,
+      };
+      break;
+    case "cajon":
+      filter = {
+        cajon: true,
+      };
+      break;
+    default:
+      res.status(210).json({ error: "wrong param" });
+      return;
+      break;
+  }
+
+  const field = {
+    _id: 1,
+    full_name: 1,
+  };
+
+  try {
+    await GSM.find(filter, field).exec(function (err, result) {
+      if (err) throw err;
+      res.status(201).json(result);
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ err });
+  }
+  // } else {
+  //   res.status(401).json({ token: "fail token" });
+  // }
+};

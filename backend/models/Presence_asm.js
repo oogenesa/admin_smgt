@@ -20,6 +20,10 @@ const PresenceSchema = new mongoose.Schema({
     type: String,
     required: [true, ""],
   },
+  event: {
+    type: String,
+    required: [true, ""],
+  },
 });
 
 const Presence_asm = mongoose.model("presence_asm", PresenceSchema);

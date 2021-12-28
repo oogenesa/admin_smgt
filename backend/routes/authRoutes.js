@@ -28,6 +28,7 @@ router.post("/gsm", gsmController.gsm_post);
 router.post("/gsm_edit/:id", gsmController.gsm_edit);
 router.get("/gsm", gsmController.gsm_get);
 router.get("/gsm/:id", gsmController.gsm_get_id);
+router.get("/gsm_service/:service", gsmController.gsm_get_service);
 
 router.post("/asm_presence", presenceController.asm_presence_post);
 router.post("/gsm_presence", presenceController.gsm_presence_post);

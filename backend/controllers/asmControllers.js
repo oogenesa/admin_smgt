@@ -132,7 +132,7 @@ module.exports.asm_get_class = async (req, res) => {
     class_sm: 1,
     image: 1,
   };
-  console.log(req.params.class);
+
   try {
     await ASM.find({ class_sm: req.params.class }, field).exec(function (
       err,
