@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useTable, usePagination } from "react-table";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
-import { get_asm_byClass, post_absensi_asm } from "../helpers/apiFunction";
+import { DateTimePicker } from "react-rainbow-components";
+import {
+  get_asm_byClass,
+  post_absensi_asm,
+  get_gsm_service,
+} from "../helpers/apiFunction";
 const AddPresensi = (props) => {
   const SwitchCell = ({
     value: initialValue,
@@ -101,7 +106,7 @@ const AddPresensi = (props) => {
   const columns = [
     {
       Header: "Name",
-      accessor: "full_name",
+      accessor: (row) => upper(row.full_name),
     },
     {
       Header: "Class",
@@ -119,34 +124,27 @@ const AddPresensi = (props) => {
     },
   ];
 
-  const [data, setData] = useState([
-    {
-      id: 1,
-      name: "tes",
-      class: "balita",
-      status: true,
-      description: "",
-    },
-    {
-      id: 2,
-      name: "tes2",
-      class: "balita",
-      status: true,
-      description: "",
-    },
-    {
-      id: 3,
-      name: "tes3",
-      class: "balita",
-      status: true,
-      description: "",
-    },
-  ]);
+  const [data, setData] = useState([]);
   const [originalData] = useState(data);
   const [skipPageReset, setSkipPageReset] = useState(false);
   const [class_sm, setClassSM] = useState("Balita");
   const [event, setEvent] = useState("Ibadah Minggu");
   const [dateevent, setDateEvent] = useState(new Date());
+
+  const [sermon, setSermon] = useState();
+  const [worship_leader, setWorship_leader] = useState();
+  const [assistant, setAssistant] = useState();
+  const [guitar, setGuitar] = useState();
+  const [keyboard, setKeyboard] = useState();
+  const [cajon, setCajon] = useState();
+
+  //to get
+  const [sermon_gsm, setSermon_gsm] = useState({});
+  const [worship_leader_gsm, setWorship_leader_gsm] = useState({});
+  const [assistant_gsm, setAssistant_gsm] = useState({});
+  const [guitar_gsm, setGuitar_gsm] = useState({});
+  const [keyboard_gsm, setKeyboard_gsm] = useState({});
+  const [cajon_gsm, setCajon_gsm] = useState({});
   // We need to keep the table from resetting the pageIndex when we
   // Update data. So we can keep track of that flag with a ref.
 
@@ -156,7 +154,7 @@ const AddPresensi = (props) => {
 
   useEffect(() => {
     const send = { id: class_sm };
-
+    //getasm
     get_asm_byClass(send).then((res) => {
       res.forEach(function (prop) {
         prop.id_asm = prop._id;
@@ -170,6 +168,14 @@ const AddPresensi = (props) => {
     });
   }, [class_sm]);
 
+  useEffect(() => {
+    get_gsm_service("sermon").then((res) => setSermon_gsm(res));
+    get_gsm_service("worship_leader").then((res) => setWorship_leader_gsm(res));
+    get_gsm_service("assistant").then((res) => setAssistant_gsm(res));
+    get_gsm_service("guitar").then((res) => setGuitar_gsm(res));
+    get_gsm_service("keyboard").then((res) => setKeyboard_gsm(res));
+    get_gsm_service("cajon").then((res) => setCajon_gsm(res));
+  }, []);
   const updateMyData = (rowIndex, columnId, value) => {
     // We also turn on the flag to not reset the page
     // setSkipPageReset(true);
@@ -259,22 +265,154 @@ const AddPresensi = (props) => {
       // console.log(prop);
     });
   };
-  return (
-    <div>
-      <div
-        className="row col-md-3"
-        style={{ marginBottom: 10, display: "flex", flexDirection: "row" }}
-      >
+  const upper = (str) => {
+    var splitStr = str.toLowerCase().split(" ");
+    for (var i = 0; i < splitStr.length; i++) {
+      splitStr[i] =
+        splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+    }
+    return splitStr.join(" ");
+  };
+  const gsmSermon = () => {
+    if (sermon_gsm.length === undefined) {
+      return;
+    } else {
+      // get_gsm_service("sermon").then((res) => {
+      //   console.log(res);
+      // });
+      var loops = [];
+      sermon_gsm.forEach(function (prop) {
+        loops.push(
+          <option key={prop._id} value={prop._id}>
+            Kak {upper(prop.nick_name)}
+          </option>
+        );
+      });
+      console.log(loops);
+      return (
         <select
           className="form-control"
-          value={class_sm}
-          onChange={(e) => setClassSM(e.target.value)}
+          value={sermon}
+          onChange={(e) => setSermon(e.target.value)}
         >
-          <option value="Balita">Balita</option>
-          <option value="Kecil">Kecil</option>
-          <option value="Besar">Besar</option>
-          <option value="Remaja">Remaja</option>
+          {loops}
         </select>
+      );
+    }
+  };
+  const gsmWorshipLeader = () => {
+    if (worship_leader_gsm.length === undefined) {
+      return;
+    } else {
+      // get_gsm_service("sermon").then((res) => {
+      //   console.log(res);
+      // });
+      var loops = [];
+      worship_leader_gsm.forEach(function (prop) {
+        loops.push(
+          <option key={prop._id} value={prop._id}>
+            Kak {upper(prop.nick_name)}
+          </option>
+        );
+      });
+      console.log(loops);
+      return (
+        <select
+          className="form-control"
+          value={worship_leader}
+          onChange={(e) => setWorship_leader(e.target.value)}
+        >
+          {loops}
+        </select>
+      );
+    }
+  };
+  const gsmGuitar = () => {
+    if (guitar_gsm.length === undefined) {
+      return;
+    } else {
+      // get_gsm_service("sermon").then((res) => {
+      //   console.log(res);
+      // });
+      var loops = [];
+      guitar_gsm.forEach(function (prop) {
+        loops.push(
+          <option key={prop._id} value={prop._id}>
+            Kak {upper(prop.nick_name)}
+          </option>
+        );
+      });
+      console.log(loops);
+      return (
+        <select
+          className="form-control"
+          value={guitar}
+          onChange={(e) => setGuitar(e.target.value)}
+        >
+          {loops}
+        </select>
+      );
+    }
+  };
+  return (
+    <div>
+      <div className="row">
+        <div
+          className="row col-md-3"
+          style={{ marginBottom: 10, display: "flex", flexDirection: "row" }}
+        >
+          <select
+            className="form-control"
+            value={class_sm}
+            onChange={(e) => setClassSM(e.target.value)}
+          >
+            <option value="Balita">Balita</option>
+            <option value="Kecil">Kecil</option>
+            <option value="Besar">Besar</option>
+            <option value="Remaja">Remaja</option>
+          </select>
+        </div>
+        <div className="col-md-3">
+          <div className="form-group">
+            <div>
+              <div className="rainbow-align-content_center rainbow-m-vertical_large rainbow-p-horizontal_small rainbow-m_auto">
+                <DateTimePicker
+                  value={dateevent}
+                  minDate={new Date(1990, 0, 4)}
+                  maxDate={new Date()}
+                  label="Tanggal Lahir"
+                  onChange={(value) => setDateEvent({ birth_date: value })}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div
+          className="row col-md-3"
+          style={{ marginBottom: 10, display: "flex", flexDirection: "row" }}
+        >
+          <label>Pelayan Firman</label>
+
+          {gsmSermon()}
+        </div>
+        <div
+          className="row col-md-3"
+          style={{ marginBottom: 10, display: "flex", flexDirection: "row" }}
+        >
+          <label>Liturgis</label>
+
+          {gsmWorshipLeader()}
+        </div>
+        <div
+          className="row col-md-3"
+          style={{ marginBottom: 10, display: "flex", flexDirection: "row" }}
+        >
+          <label>Gitaris</label>
+
+          {gsmGuitar()}
+        </div>
       </div>
       <Table
         columns={columns}

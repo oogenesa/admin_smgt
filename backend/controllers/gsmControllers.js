@@ -240,7 +240,7 @@ module.exports.gsm_get_service = async (req, res) => {
 
   const field = {
     _id: 1,
-    full_name: 1,
+    nick_name: 1,
   };
 
   try {

@@ -168,3 +168,15 @@ export const post_absensi_asm = (send) => {
       console.log(err);
     });
 };
+
+export const get_gsm_service = (send) => {
+  let url = API_URL + "gsm_service/" + send;
+  return axios
+    .get(url)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
