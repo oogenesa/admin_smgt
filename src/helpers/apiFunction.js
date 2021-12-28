@@ -61,6 +61,18 @@ export const get_asm_byId = (send) => {
     });
 };
 
+export const get_asm_byClass = (send) => {
+  let url = API_URL + "asm/" + send.id;
+  return axios
+    .get(url)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 export const post_asm = (send) => {
   let url = API_URL + "asm";
   return axios

@@ -1,31 +1,57 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useTable, usePagination } from "react-table";
+import BootstrapSwitchButton from "bootstrap-switch-button-react";
 
 const AddPresensi = (props) => {
-  const EditableCell = ({
+  const SwitchCell = ({
     value: initialValue,
     row: { index },
     column: { id },
     updateMyData, // This is a custom function that we supplied to our table instance
   }) => {
     // We need to keep and update the state of the cell normally
-    const [value, setValue] = React.useState(initialValue);
+
+    const [value, setValue] = useState(initialValue);
 
     const onChange = (e) => {
-      setValue(e.target.value);
+      // setValue(e.target.checked);
+      setValue(e);
+      updateMyData(index, id, e);
+      if (e) {
+        updateMyData(index, "desc", "");
+      } else {
+        updateMyData(index, "desc", "Tanpa Keterangan");
+      }
     };
 
     // We'll only update the external data when the input is blurred
-    const onBlur = () => {
-      updateMyData(index, id, value);
+    const onBlur = (e) => {
+      console.log(index, id, e);
     };
 
     // If the initialValue is changed external, sync it up with our state
-    React.useEffect(() => {
+    useEffect(() => {
       setValue(initialValue);
     }, [initialValue]);
+    // useEffect(() => {
 
-    return <input value={value} onChange={onChange} onBlur={onBlur} />;
+    // }, [value]);
+
+    // return <input value={value} onChange={onChange} onBlur={onBlur} />;
+    return (
+      <div className="form-group">
+        <BootstrapSwitchButton
+          checked={value}
+          onstyle="success"
+          offstyle="danger"
+          onChange={onChange}
+          onBlur={onBlur}
+          onlabel="Hadir"
+          offlabel="Tidak Hadir"
+          width={150}
+        />
+      </div>
+    );
   };
 
   const DropdownCell = ({
@@ -36,6 +62,7 @@ const AddPresensi = (props) => {
   }) => {
     // We need to keep and update the state of the cell normally
     const [value, setValue] = useState(initialValue);
+    const [disable, setDisabled] = useState(data[index].status);
 
     const onChange = (e) => {
       setValue(e.target.value);
@@ -49,9 +76,13 @@ const AddPresensi = (props) => {
     // If the initialValue is changed external, sync it up with our state
     useEffect(() => {
       setValue(initialValue);
+      if (data[index].status) {
+        setValue("");
+      } else {
+        setValue(initialValue);
+      }
     }, [initialValue]);
 
-    // return <input value={value} onChange={onChange} onBlur={onBlur} />;
     return (
       <div>
         <select
@@ -59,49 +90,58 @@ const AddPresensi = (props) => {
           value={value}
           onChange={onChange}
           onBlur={onBlur}
+          disabled={disable}
         >
-          <option value="Hadir">Hadir</option>
+          <option hidden={!disable} value=""></option>
+          <option value="Tanpa Keterangan">Tanpa Keterangan</option>
           <option value="Sakit">Sakit</option>
           <option value="Ijin">Ijin</option>
         </select>
-        <input type="text" value={value} onChange={onChange} onBlur={onBlur} />
       </div>
     );
   };
-
-  // Set our editable cell renderer as the default Cell renderer
-  const defaultColumn = {
-    Cell: EditableCell,
-  };
-  const columns = useMemo(
-    () => [
-      {
-        Header: "Name",
-        accessor: "name",
-      },
-      {
-        Header: "Class",
-        accessor: "class",
-      },
-      {
-        Header: "Desc",
-        accessor: "desc",
-        Cell: DropdownCell,
-      },
-    ],
-    []
-  );
+  const columns = [
+    {
+      Header: "Name",
+      accessor: "name",
+    },
+    {
+      Header: "Class",
+      accessor: "class",
+    },
+    {
+      Header: "Kehadiran",
+      accessor: "status",
+      Cell: SwitchCell,
+    },
+    {
+      Header: "Desc",
+      accessor: "desc",
+      Cell: DropdownCell,
+    },
+  ];
 
   const [data, setData] = useState([
     {
       id: 1,
       name: "tes",
       class: "balita",
+      status: true,
+      desc: "",
     },
     {
       id: 2,
       name: "tes2",
       class: "balita",
+      status: true,
+      desc: "",
+    },
+    {
+      id: 3,
+      name: "tes3",
+      class: "balita",
+      status: true,
+      desc: "",
     },
   ]);
   const [originalData] = useState(data);
@@ -113,9 +153,15 @@ const AddPresensi = (props) => {
   // When our cell renderer calls updateMyData, we'll use
   // the rowIndex, columnId and new value to update the
   // original data
+
+  // useEffect(() => {
+  //   // setSkipPageReset(false)
+  //   // console.log(data);
+  // }, [data]);
+
   const updateMyData = (rowIndex, columnId, value) => {
     // We also turn on the flag to not reset the page
-    setSkipPageReset(true);
+    // setSkipPageReset(true);
     setData((old) =>
       old.map((row, index) => {
         if (index === rowIndex) {
@@ -132,9 +178,6 @@ const AddPresensi = (props) => {
   // After data chagnes, we turn the flag back off
   // so that if data actually changes when we're not
   // editing it, the page is reset
-  useEffect(() => {
-    setSkipPageReset(false);
-  }, [data]);
 
   // Let's add a data resetter/randomizer to help
   // illustrate that flow...
@@ -143,37 +186,24 @@ const AddPresensi = (props) => {
     // For this example, we're using pagination to illustrate how to stop
     // the current page from resetting when our data changes
     // Otherwise, nothing is different here.
-    const {
-      getTableProps,
-      getTableBodyProps,
-      headerGroups,
-      prepareRow,
-      page,
-      canPreviousPage,
-      canNextPage,
-      pageOptions,
-      pageCount,
-      gotoPage,
-      nextPage,
-      previousPage,
-      setPageSize,
-      state: { pageIndex, pageSize },
-    } = useTable(
-      {
-        columns,
-        data,
 
-        // use the skipPageReset option to disable page resetting temporarily
-        autoResetPage: !skipPageReset,
-        // updateMyData isn't part of the API, but
-        // anything we put into these options will
-        // automatically be available on the instance.
-        // That way we can call this function from our
-        // cell renderer!
-        updateMyData,
-      },
-      usePagination
-    );
+    const { getTableProps, getTableBodyProps, headerGroups, prepareRow, page } =
+      useTable(
+        {
+          columns,
+          data,
+
+          // use the skipPageReset option to disable page resetting temporarily
+          autoResetPage: !skipPageReset,
+          // updateMyData isn't part of the API, but
+          // anything we put into these options will
+          // automatically be available on the instance.
+          // That way we can call this function from our
+          // cell renderer!
+          updateMyData,
+        },
+        usePagination
+      );
     return (
       <>
         <table {...getTableProps()}>
@@ -215,7 +245,7 @@ const AddPresensi = (props) => {
         updateMyData={updateMyData}
         skipPageReset={skipPageReset}
       />
-      {console.log(data)}
+      <button onClick={() => console.log(data)}>tes</button>
     </div>
   );
 };

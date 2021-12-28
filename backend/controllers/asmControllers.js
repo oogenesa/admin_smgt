@@ -54,6 +54,8 @@ module.exports.asm_post = async (req, res) => {
     school_grade,
     image,
   } = req.body;
+  const active = true;
+  const input_date = Date.now();
   try {
     const asm = await ASM.create({
       full_name,
@@ -71,6 +73,8 @@ module.exports.asm_post = async (req, res) => {
       class_sm,
       school_grade,
       image,
+      input_date,
+      active,
     });
 
     res.status(201).json({ asm: asm._id });
@@ -119,6 +123,31 @@ module.exports.asm_get_id = async (req, res) => {
     console.log(err);
     res.status(400).json({ err });
   }
+};
+module.exports.asm_get_class = async (req, res) => {
+  const field = {
+    _id: 1,
+    full_name: 1,
+    nick_name: 1,
+    class_sm: 1,
+    image: 1,
+  };
+  console.log(req.params.class);
+  try {
+    await ASM.find({ class_sm: req.params.class }, field).exec(function (
+      err,
+      result
+    ) {
+      if (err) throw err;
+      res.status(201).json(result);
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ err });
+  }
+  // } else {
+  //   res.status(401).json({ token: "fail token" });
+  // }
 };
 
 module.exports.asm_edit = async (req, res) => {
