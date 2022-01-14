@@ -116,7 +116,7 @@ module.exports.asm_get_id = async (req, res) => {
   try {
     await ASM.find({ _id: req.params.id }).exec(function (err, result) {
       if (err) throw err;
-      res.status(201).json(result);
+      res.status(201).json(result[0]);
       //console.log(result);
     });
   } catch (err) {

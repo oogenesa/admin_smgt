@@ -35,3 +35,4 @@ app.use(authRoutes);
 app.listen(port, () => {
   console.log(`Server is runnin on port : ${port}`);
 });
+module.exports = app;
