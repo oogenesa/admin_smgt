@@ -99,7 +99,7 @@ module.exports.gsm_post = async (req, res) => {
       active,
     });
 
-    res.status(201).json({ gsm: gsm._id });
+    res.status(200).json({ gsm: gsm._id });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
@@ -143,7 +143,7 @@ module.exports.gsm_edit = async (req, res) => {
   const options = { upsert: false };
   try {
     const result = await GSM.updateOne(filter, update, options);
-    res.status(201).json({ result });
+    res.status(200).json({ result });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
@@ -174,7 +174,7 @@ module.exports.gsm_get = async (req, res) => {
   try {
     await GSM.find({}, field).exec(function (err, result) {
       if (err) throw err;
-      res.status(201).json(result);
+      res.status(200).json(result);
     });
   } catch (err) {
     console.log(err);
@@ -190,7 +190,7 @@ module.exports.gsm_get_id = async (req, res) => {
   try {
     await GSM.find({ _id: req.params.id }).exec(function (err, result) {
       if (err) throw err;
-      res.status(201).json(result);
+      res.status(200).json(result);
       //console.log(result);
     });
   } catch (err) {
@@ -246,7 +246,7 @@ module.exports.gsm_get_service = async (req, res) => {
   try {
     await GSM.find(filter, field).exec(function (err, result) {
       if (err) throw err;
-      res.status(201).json(result);
+      res.status(200).json(result);
     });
   } catch (err) {
     console.log(err);

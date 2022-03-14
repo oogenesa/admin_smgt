@@ -16,7 +16,7 @@ module.exports.asm_presence_post = async (req, res) => {
       event,
     });
 
-    res.status(201).json({ asm_absensi: asm_absensi._id });
+    res.status(200).json({ asm_absensi: asm_absensi._id });
   } catch (err) {
     res.status(400).json({ err });
   }
@@ -43,7 +43,7 @@ module.exports.gsm_presence_post = async (req, res) => {
       event,
     });
 
-    res.status(201).json({ gsm_absensi: gsm_absensi._id });
+    res.status(200).json({ gsm_absensi: gsm_absensi._id });
   } catch (err) {
     res.status(400).json({ err });
   }

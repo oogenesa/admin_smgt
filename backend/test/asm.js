@@ -20,8 +20,9 @@ describe("/GET asm", () => {
       .request(server)
       .get("/asm")
       .end((err, res) => {
-        res.should.have.status(201);
+        res.should.have.status(200);
         res.should.be.a("object");
+        res.body.length.should.not.be.eql(0);
         done();
       });
   });
@@ -33,9 +34,8 @@ describe("/GET asm by ID", () => {
       .request(server)
       .get("/asm/" + "61a21438ae0eac176b66301a")
       .end((err, res) => {
-        res.should.have.status(201);
+        res.should.have.status(200);
         res.should.be.a("object");
-
         res.body.should.have.property("_id");
         res.body.should.have.property("full_name");
         res.body.should.have.property("nick_name");

@@ -116,7 +116,7 @@ module.exports.menu_get = async (req, res) => {
 
         const menu = Menu.find({ role: { $lte: tes } }).exec((err, results) => {
           if (err) throw err;
-          res.status(201).json(results);
+          res.status(200).json(results);
         });
       });
     });

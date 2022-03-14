@@ -9,7 +9,7 @@ const { requireAuth, checkUser } = require("./middleware/authMiddleware");
 
 const app = express();
 app.use(cookieParser());
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 const corsOptions = {
   origin: ["http://192.168.1.205:3000", "http://localhost:3000"],

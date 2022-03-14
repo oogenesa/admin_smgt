@@ -101,7 +101,7 @@ module.exports.asm_get = async (req, res) => {
   try {
     await ASM.find({}, field).exec(function (err, result) {
       if (err) throw err;
-      res.status(201).json(result);
+      res.status(200).json(result);
     });
   } catch (err) {
     console.log(err);
@@ -116,7 +116,7 @@ module.exports.asm_get_id = async (req, res) => {
   try {
     await ASM.find({ _id: req.params.id }).exec(function (err, result) {
       if (err) throw err;
-      res.status(201).json(result[0]);
+      res.status(200).json(result[0]);
       //console.log(result);
     });
   } catch (err) {
@@ -139,7 +139,7 @@ module.exports.asm_get_class = async (req, res) => {
       result
     ) {
       if (err) throw err;
-      res.status(201).json(result);
+      res.status(200).json(result);
     });
   } catch (err) {
     console.log(err);
@@ -174,7 +174,7 @@ module.exports.asm_edit = async (req, res) => {
   const options = { upsert: false };
   try {
     const result = await ASM.updateOne(filter, update, options);
-    res.status(201).json({ result });
+    res.status(200).json({ result });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
@@ -207,7 +207,7 @@ module.exports.asm_get_search = async (req, res) => {
       field
     ).exec(function (err, result) {
       if (err) throw err;
-      res.status(201).json(result);
+      res.status(200).json(result);
     });
   } catch (err) {
     console.log(err);

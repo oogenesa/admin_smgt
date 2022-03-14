@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import Cookies from "universal-cookie";
-const API_URL = "http://localhost:5000/";
+const API_URL = "http://localhost:5001/";
 
 const cookies = new Cookies();
 const logedin = cookies.get("jwt");
