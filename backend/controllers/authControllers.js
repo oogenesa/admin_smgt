@@ -82,13 +82,13 @@ module.exports.login_post = async (req, res) => {
   try {
     const user = await User.login(username, password);
     const token = createToken(user._id);
+    console.log(token)
     res.cookie("jwt", token, { httpOnly: false, maxAge: maxAge * 1000 });
     res.cookie("role", user.role, {
       httpOnly: false,
       maxAge: maxAge * 1000,
     });
-
-    res.cookie("username", "Flavio", { domain: "http://192.168.1.205:3000" });
+    // res.cookie("username", "Flavio", { domain: "http://192.168.1.205:3000" });
     res.status(200).json({ user: user._id, role: user.role });
   } catch (err) {
     const errors = handleErrors(err);
